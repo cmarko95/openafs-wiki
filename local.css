@@ -169,7 +169,9 @@ pre {
   box-shadow: 0px 0px 2px #1a1a1a; }
 
 #content, #comments, #footer {
-  margin: 1em 2em; }
+  margin: 1em 2em 1em 2em;
+  max-width: 80em;
+}
 
 #pageinfo {
   border-color: #cccccc; }
