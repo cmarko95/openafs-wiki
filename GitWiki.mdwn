@@ -36,7 +36,7 @@ OpenAFS wiki. This requires:
 
 ## Getting the wiki source pages
 
-Use 'git clone' to get the openafs-wiki source files:
+Use `git clone` to get the openafs-wiki source files:
 
     git clone ssh://gerrit.openafs.org/openafs-wiki.git
 
@@ -58,11 +58,9 @@ subsequent pushing may fail.
 ## Setting up ikiwiki to preview your changes
 
 This is an optional but recommended step. The ikiwiki software can be installed
-on your laptop or workstation so you can preview your changes before publishing
-them.  The default ikiwiki installation is intended for a server setup, so
-users to create pages using the web-based CGI program. In this section, a
-simplified setup is shown, which avoids some of the complexity of the ikiwiki
-setup but allows you to preview changes made to the wiki source files.
+on your local machine so you can preview your changes before publishing them on
+the wiki.  The default ikiwiki installation instructions are intended for a
+server setup.  A simplified, minimal setup is shown here.
 
 First, install the ikiwiki package for your system.  Use `apt` to install
 ikiwiki on a Debian or Ubuntu system.
@@ -73,7 +71,7 @@ See [[ikiwiki downloads|http://ikiwiki.info/download]] for installation
 instructions for other various platforms.
 
 Create a minimal ikiwiki configuration file by saving the following in
-the file '~/openafs-wiki.setup' (where &lt;username&gt; is your username)
+the file '~/openafs-wiki.setup' (where `<username>` is your username)
 
     use IkiWiki::Setup::Standard {
         wikiname => 'openafs-wiki',
@@ -100,7 +98,6 @@ The pages may be previewed locally by pointing your browser at:
 
     file:///home/<username>/public_html/openafs-wiki/index.html
 
-
 ## Editing pages
 
 You can now use your favorite text editor to change the markdown source and to
@@ -125,4 +122,3 @@ on gerrit.
 The changes will not be held by gerrit for review.  The commit will be merged
 immediately to the openafs-wiki.git repository and the html on the wiki server
 will be automatically updated after a successful 'git push'.
-
