@@ -253,7 +253,7 @@ When submitting to gerrit, it's important to realise that each commit in your br
 
 First, each commit should be complete. The maxim "one change per commit, one commit per change" applies here. Each commit should build and test in its own right. Typically, this means that a change will be in a small number of commits. If, during development, you have created many more than this (for example, you've created a large number of bug fix commits), please use 'git rebase', or cherry pick these commits into a separate tree before uploading them.  Note, however, that "one change" could equate to a change to source code and a change to the corresponding documentation for that code specific change.
 
-Secondly, each commit should have a meaningful revision log. The internals of git means that we can't easily edit these before pushing them into the tree, so we'd like you to get them right for us! A commit message should be comprised of a single 'subject' line (which must **not** end with a full stop), followed by a blank line, followed by one or more paragraphs explaining the purpose of the patch. If it is intended to fix a bug in OpenAFS RT, then the word 'FIXES' followed by the bug number or comma-separated list of bug numbers should be included on a line of its own. The 'LICENSE' keyword can be used to indicate code which is covered under a license other than the IPL, although please speak to a gatekeeper if you intend using this. An example commit message would be
+Secondly, each commit should have a meaningful revision log. The internals of git means that we can't easily edit these before pushing them into the tree, so we'd like you to get them right for us! A commit message should be comprised of a single 'subject' line (which must **not** end with a full stop), followed by a blank line, followed by one or more paragraphs explaining the purpose of the patch. Gerrit warns if the 'subject' is longer than 65 characters. If it is intended to fix a bug in OpenAFS RT, then the word 'FIXES' followed by the bug number or comma-separated list of bug numbers should be included on a line of its own. The 'LICENSE' keyword can be used to indicate code which is covered under a license other than the IPL, although please speak to a gatekeeper if you intend using this. An example commit message would be
 
       Add option to disable syscall probing
 
@@ -278,6 +278,12 @@ and
 can be used to automatically fix any policy violations on your local branch before pushing the changes to Gerrit.   Finally, Git 1.8.2 and above can be configured to apply this policy to all local commits:
 
     git config --global config.cleanup whitespace
+
+Then commit your changes, for example with a file that contains your log message
+
+    git commit -a -F <your-log-message-in-this-file>
+
+(where &lt;your-log-message-in-this-file&gt; is a file with the log message)
 
 Once your commits have a proper commit message and have all whitespace errors fixed, use
 
