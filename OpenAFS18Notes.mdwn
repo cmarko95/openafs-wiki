@@ -43,6 +43,7 @@ Things to be done pre-branching:
 * Any other tree-wide cleanup that people want to get in.
 * Adjust the default behavior of configure (pthreaded ubik?  more?)
 * Beg and plead for documentation updates.
+* Tie the installation of the pam module to --enable/disable-kauth
 
 Things to be removed from 1.8 post-branch:
  
