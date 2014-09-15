@@ -1,6 +1,7 @@
 # Notes related to an OpenAFS 1.8 branch
 
-The current plan is to make a branch for 1.8 off of master in early July 2014.
+The current plan is to make a branch for 1.8 off of master on or about
+24 September 2014.
 This will allow all of the improvements and cleanup that have accumulated
 on master to be in a stable release series, while letting potentially
 destabilizing changes such as rxgk and pthreaded bos land on master to
