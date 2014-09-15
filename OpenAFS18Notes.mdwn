@@ -49,7 +49,6 @@ Things to be removed from 1.8 post-branch:
  
 * `src/rxgk`; it is not going to be usable in 1.8
 * `src/mcas`; it is not going to be usable in 1.8
-* `make dest` support?  Pretty-please?
 
 Things to be removed from master post-branch:
  
@@ -59,3 +58,4 @@ Things to be removed from master post-branch:
 * push to empty out libutil as much as possible.
 * rip out LWP support
 * it is tempting to remove kauth, but probably not possible due to agreements with IBM.
+* `make dest` support?  Pretty-please?
