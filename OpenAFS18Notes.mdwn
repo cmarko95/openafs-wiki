@@ -24,7 +24,7 @@ is created.
 
 Things to be done pre-branching:
  
-* Make roken and hcrypto use libtool to build
+* Make roken, hcrypto, and kopenafs use libtool to build
 * Make sure libtool is used properly elsewhere, in particular to install
   shared versions of libafsrpc and libafsauthent, which we ship in
   1.6 but do not currently install on master
