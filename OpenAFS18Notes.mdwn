@@ -60,3 +60,4 @@ Things to be removed from master post-branch:
 * rip out LWP support
 * it is tempting to remove kauth, but probably not possible due to agreements with IBM.
 * `make dest` support?  Pretty-please?
+* upserver
