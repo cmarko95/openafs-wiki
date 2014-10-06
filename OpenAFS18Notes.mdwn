@@ -61,3 +61,4 @@ Things to be removed from master post-branch:
 * it is tempting to remove kauth, but probably not possible due to agreements with IBM.
 * `make dest` support?  Pretty-please?
 * upserver
+* non-DA fileserver and associated bitmap-later and fast-restart configure knobs
