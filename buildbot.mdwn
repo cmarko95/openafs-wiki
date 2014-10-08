@@ -4,7 +4,7 @@ The buildbot web site is at http://buildbot.openafs.org:8010/
 
 Any changes submitted to gerrit will automatically be built by buildbot, and the results of the build will be add as a comment in gerrit.
 
-The configuration files for the buildbot master (excluding passwords) are managed using git and are regularly pushed up to [github|https://github.com/edgester/afsbotcfg/blob/master/master.cfg]. The configuration file includes the names of all of the slave maintainers.
+The configuration files for the buildbot master (excluding passwords) are managed using git and are regularly pushed up to [github]{https://github.com/edgester/afsbotcfg/blob/master/master.cfg). The configuration file includes the names of all of the slave maintainers.
 
 [[BuildbotMasterNotes]]
 
