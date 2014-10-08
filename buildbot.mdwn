@@ -6,6 +6,8 @@ Any changes submitted to gerrit will automatically be built by buildbot, and the
 
 The configuration files for the buildbot master (excluding passwords) are managed using git and are regularly pushed up to [github](https://github.com/edgester/afsbotcfg/blob/master/master.cfg). The configuration file includes the names of all of the slave maintainers.
 
+[github copy of buildbot master config files](https://github.com/edgester/afsbotcfg/blob/master/master.cfg)
+
 [[BuildbotMasterNotes]]
 
 [[BuildbotSlaveHowto]]
