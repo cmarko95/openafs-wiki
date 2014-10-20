@@ -1,0 +1,473 @@
+
+This is a step-by-step guide to installing OpenAFS and setting up an AFS cell
+on RedHat Enterprise Linux, Fedora, or CentOS.  This guide is current as of
+OpenAFS version 1.6.9 on CentOS 6.5.
+
+This document is based on Steven Pelley's guide for installing OpenAFS on
+Fedora.
+
+[[!toc levels=1]]
+
+## Differences from older guides
+
+### Non-DES Kerberos service key
+
+As of OpenAFS version 1.6.5, non-DES encryption keys are supported and should
+be used for the long term AFS service key. The `asetkey` program is no longer
+needed to import the Kerberos service key. The OpenAFS servers read a Kerberos
+keytab file directly. Special changes to the Kerberos configuration files to
+allow weak crypto and weak enctypes are no longer needed.
+
+The OpenAFS `kaserver` should not be used in new installations. This guide
+shows how to install MIT Kerberos.
+
+### -noauth server mode
+
+Older versions of OpenAFS required the `-noauth` flag to be used when first
+setting up the system. This entailed starting the `bosserver` in `-noauth` mode
+to disable authorization during the initial setup.  Modern versions of OpenAFS
+can be installed without the `-noauth`, making the initial setup more secure
+and without the need to restart the server processes.
+
+### -dynroot client mode
+
+This guide assumes the OpenAFS cache manager is started with `-dynroot` mode
+enabled, which is the default these days.  This guide shows how to create the
+initial top level AFS volumes when the cache manager is in `-dynroot` mode.
+
+### Recommended options
+
+This guide recommends using the `bosserver` restricted mode to improve security.
+
+The default options for the fileserver are rather out of date for modern
+hardware. This guide provides some examples of more suitable options for
+the fileserver.
+
+This guide shows how to setup the Demand Attach Fileserver.
+
+## Naming conventions
+
+When setting up an AFS cell on the internet, the convention is to user your
+internet domain name for your Kerberos realm and AFS cell name.  The Kerberos
+realm name should be uppercase and the AFS cell name should be lowercase.
+
+Note, it is possible to create a AFS cell with a different name than the
+Kerberos realm (or even use a single Kerberos realm in multiple cells).  See
+the documentation for the OpenAFS `krb.conf` server configuration file for
+details on mapping realms to cell names.
+
+## Server setup
+
+A minimal OS install is sufficient.
+
+For a simple installation, you may use a single server to host the Kerberos
+KDC, OpenAFS database server, and OpenAFS fileserver.  For a production
+environment, it is recommended that the Kerberos KDC be deployed on a
+dedicated, secure server, the OpenAFS database servers be deployed on three
+separate machines, and multiple file servers deployed as needed.
+
+### Disk Partitions
+
+An important thing to keep in mind is that you'll need at least one partition
+on the file server to store volumes for AFS.  This will be mounted at
+`/vicepa`. If you have multiple partitions they can be mounted at `/vicepb`,
+`/vicepc`, etc.  The file server uses file-based storage (not block based).
+`ext3`, `ext4`, and `xfs` are commonly used filesystems on the vicep
+partitions.
+
+Clients should have a dedicated partition for the file cache. The cache
+partition is traditionally mounted at `/usr/vice/cache`.
+
+### Networking
+
+DNS should be working correctly for forward and reverse name lookups before you
+begin the Kerberos and OpenAFS installation.  `bind` can be installed if you
+need a local DNS server.  Use `system-config-bind` to add a zone and entries.
+
+Servers need at least one IPv4 interface that is accessible by the AFS clients.
+IPv6 interfaces are not yet supported.
+
+### Time keeping
+
+Kerberos, and therefore OpenAFS, requires good clock synchronization between
+clients and servers. Be sure to install and configure `ntp` and verify the
+clocks are automatically kept in sync.
+
+    # yum install -y ntp
+    # service ntpd start
+    # chkconfig ntpd on
+
+### Firewall
+
+The default firewall settings on RHEL will block the network ports used by
+Kerberos and OpenAFS.  You will need to adjust the firewall rules on the
+servers to allow traffic on these ports.
+
+On the Kerberos server, open udp ports 88 and 646:
+
+    # iptables -A INPUT -p udp --dport 88 -j ACCEPT
+    # iptables -A INPUT -p udp --dport 646 -j ACCEPT
+    # service iptables save
+
+On the OpenAFS database servers, open the udp ports 7002, 7003, and 7007:
+
+    # iptables -A INPUT -p udp --dport 7002 -j ACCEPT
+    # iptables -A INPUT -p udp --dport 7003 -j ACCEPT
+    # iptables -A INPUT -p udp --dport 7007 -j ACCEPT
+    # service iptables save
+
+On the OpenAFS file servers, open the udp ports 7000, 7005, and 7007:
+
+    # iptables -A INPUT -p udp --dport 7000 -j ACCEPT
+    # iptables -A INPUT -p udp --dport 7005 -j ACCEPT
+    # iptables -A INPUT -p udp --dport 7007 -j ACCEPT
+    # service iptables save
+
+OpenAFS clients use udp port 7001. Open udp port 7001 on any system that will
+have the OpenAFS client installed.
+
+    # iptables -A INPUT -p udp --dport 7001 -j ACCEPT
+    # service iptables save
+
+### SELinux
+
+Ideally, SELinux should be kept in enforcing mode. SELinux may be set to
+enforcing for the OpenAFS client, but unfortunately, for the servers, there are
+still several [issues][1] remaining before the servers can run out the box with
+SELinux in enforcing mode.
+
+For test installations, SELinux can be set into permissive mode, which will
+print warnings instead of blocking:
+
+    # setenforce 0
+    # sed -i -e 's/SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config
+
+See [this report][1] for workarounds if you need to run in enforcing mode.
+
+[1]: https://bugzilla.redhat.com/show_bug.cgi?id=1136396
+
+## Installing Kerberos
+
+Install the Kerberos server and client packages with the command:
+
+    # yum install -y krb5-server krb5-workstation krb5-libs
+
+Replace every instance of `EXAMPLE.COM` with your realm name in the following
+configuration files:
+
+  * `/etc/krb5.conf`
+  * `/var/kerberos/krb5kdc/kdc.conf`
+  * `/var/kerberos/krb5kdc/kadm5.acl`
+
+Replace every instance of the example hostname `kerberos.example.com` with
+the actual hostname of your Kerberos server in the file `/etc/krb5.conf`.
+
+Create the Kerberos database using the `krb5_util` command. You will be
+prompted for a master principal password. Choose a password, keep it secret,
+and keep it safe.
+
+    # /usr/sbin/kdb5_util create -s
+
+Start the Kerberos servers.
+
+    # service krb5kdc start
+    # service kadmin start
+    # chkconfig krb5kdc on
+    # chkconfig kadmin on
+
+## Installing OpenAFS servers
+
+### Installing servers
+
+OpenAFS RPM packages for RHEL 6 are available on the [[OpenAFS]] website. The
+packages may be installed using `yum`.  First, install the repository
+definition with
+
+    # version=<version>
+    # rpm -i http://openafs.org/dl/openafs/${version}/openafs-release-rhel-${version}-1.noarch.rpm
+
+where `<version>` is the OpenAFS version you wish to install, e.g. "1.6.9".
+
+Use `yum` to install the OpenAFS server packages:
+
+    # yum install -y openafs openafs-server openafs-docs openafs-krb5
+
+Create the Kerberos AFS service key and export it to a keytab file:
+
+    # cellname=<cellname>
+    # kadmin.local -q "addprinc -randkey afs/${cellname}"
+    # kadmin.local -q "ktadd -k /usr/afs/etc/rxkad.keytab afs/${cellname}"
+
+where `<cellname>` is the name of your cell.  Start the OpenAFS servers:
+
+    # service openafs-server start
+
+Check the server log `/usr/afs/logs/BosLog` to verify the OpenAFS `bosserver`
+process started.  Set the cell name with the command:
+
+    # bos setcellname localhost ${cellname} -localauth
+
+### Starting the database services
+
+The `ptserver` process stores the AFS users and group names in your cell. The
+`vlserver` process stores the file server locations of the AFS volumes in your
+cell.  Start the OpenAFS database processes with the commands:
+
+    # bos create localhost ptserver simple -cmd /usr/afs/bin/ptserver -localauth
+    # bos create localhost vlserver simple -cmd /usr/afs/bin/vlserver -localauth
+
+Check the log files `BosLog`, `PTLog`, `VLLog` in the `/usr/afs/logs`
+directory to verify the `ptserver` and `vlserver` started.
+
+### Starting the file server
+
+Start the file server. This is a rather long command line.
+
+    # options="-d 1"  TODO: list some practical options
+    # bos create localhost \
+       dafs dafs \
+       -cmd "/usr/afs/bin/dafileserver ${options}" \
+       "/usr/afs/bin/davolserver -log" \
+       "/usr/afs/bin/salvageserver" \
+       "/usr/afs/bin/dasalvager" \
+       -localauth
+
+Check the servers logs `BosLog`, `FileLog`, `VolserLog`, and `SalsrvLog`, in
+`/usr/afs/logs' to verify the file server started.  At this point the OpenAFS
+server processes should be running.
+
+### Creating the admin account
+
+Create a user account for Kerberos and AFS administration.
+
+    # myname=<username>
+    # kadmin.local -q "addprinc ${myname}/admin"
+    Enter password: <password>
+    Re-enter password: <password>
+    # pts createuser ${myname}.admin -localauth
+    # pts adduser ${myname}.admin system:administrators -localauth
+    # bos adduser localhost ${myname}.admin -localauth
+
+where `<myname>` is your user name and `<password>` is your chosen password.
+
+The admin principal can be any name you want.  The recommended practice is to
+create two principals for admins: one for your normal user, and an additional
+admin account. For example, I may have `steve` and `steve/admin`. Note that for
+Kerberos 5, the name is `steve/admin@REALM`, whereas in AFS, the name is
+`steve.admin`. Use `steve.admin` for all AFS commands.  Since this is to be an
+administrator we will also register it as such with the `bos` server. We can give
+it administrator rights by adding it to the group `system:administrators`. This
+is an AFS default group. The `pts membership` command will list all the groups
+that your user is a member of. Verify that it lists `system:administrators`.
+
+### Create the root volumes
+
+At this point we need our `/vicepa` partition.  You should have done this when
+installing the operating system. If you have not, do it now, then restart the
+fileserver with `service openafs-server restart`.  (If this is only a test
+system you may create a pseudo partition without needing to create an actual
+separate filesystem. To do this, create an empty directory called `/vicepa` and
+then create an empty file called `/vicepa/AlwaysAttach`, then restart the file
+server with `service openafs-server restart`.)
+
+Create the root volumes with the commands:
+
+    # vos create localhost a root.afs -localauth
+    # vos create localhost a root.cell -localauth
+
+Check the volume location database to verify the two volumes are listed.
+
+    # vos listvldb
+
+Finally, now that the server configuration is done, put the `bosserver` into
+the more secure restricted mode, which disables several bos commands which are
+strictly not needed for normal operation.
+
+    # bos setrestricted localhost -mode 1 -localauth
+
+This completes the server side setup. At this point will need to install the
+OpenAFS cache manager (client), setup the top level directories, and then start
+adding files to your new cell.  The cache manager may be installed on a
+separate machine (for example, your laptop.)  Also, you will no longer be using
+the `root` user to run OpenAFS commands, but instead from this point forward
+you should use your Kerberos credentials.
+
+## Installing OpenAFS Client
+
+### Kernel Module
+
+If installing the cache manager on an OpenAFS server, first remove the symlinks
+created by `bosserver`. These will be in the way if the client is installed.
+
+    # test -h /usr/vice/etc/ThisCell && rm /usr/vice/etc/ThisCell
+    # test -h /usr/vice/etc/CellServDB && rm /usr/vice/etc/CellServDB
+
+Install the OpenAFS client with yum:
+
+    # yum install -y openafs openafs-client openafs-krb5 kmod-openafs
+
+You may need to reboot you system if the kernel version was updated.
+
+The OpenAFS kernel module must match your kernel version.  If a pre-built
+module is not available for the kernel version you are running, the yum install
+of kmod-openafs will fail.  If this happens, then you may use
+[DKMS to build and install|RpmClientInstallationWithDKMS]] a kernel module
+that matches your kernel version.
+
+    # yum install -y dkms gcc
+    # yum install -y openafs openafs-client openafs-krb5 dkms-openafs
+
+Alternately, you can build the kernel module from the source rpm.  You will
+need to download the OpenAFS SRPM file from OpenAFS.org, install the
+`kernel-devel` package that matches your kernel version, and the necessary
+build tools.  Use the `rpmbuild` command to build the kernel module.
+
+    # rpmbuild --rebuild -bb \
+        --define 'build_userspace 0' \
+        --define 'build_modules 1' \
+        openafs-<version>-1.src.rpm
+
+### Client side configuration
+
+`/usr/afs/etc` is the location for the server files. We also need to configure
+the client. The client files are located in `/usr/vice/etc`. RPM based OpenAFS
+packages are set up in such a way that there are two `CellServDB` client
+files in `/usr/vice/etc`: `CellServDB.dist` and `CellServDB.local`. We will
+copy ours to the local list.
+
+    # cp /usr/afs/etc/CellServDB /usr/vice/etc/CellServDB.local
+    # cp /usr/afs/etc/ThisCell /usr/vice/etc/ThisCell
+
+The RPM based `openafs-client` init script will combine the `CellServDB.dist`
+and `CellServDB.local` files into the `CellServDB` file, which the cache
+manager reads on startup.
+
+### Start the cache manager
+
+Start the cache manager with the command:
+
+    # service openafs-client start
+
+Run the `mount` command to verify the AFS filesystem is mounted at `/afs`.
+
+Try logging in to AFS. `kinit` logs you into Kerberos (this is the normal
+Kerberos utility). `aklog` gets you an AFS token.  The `tokens` command lists
+the tokens you have. You should see `afs@<cellname>`. If you run into problems, you
+can use `klist` to list your Kerberos tickets, or `aklog` with the `-d` flag.
+
+    $ kinit <username>/admin
+    <password>
+    $ aklog
+    $ tokens
+
+## Setting up the cell root directory
+
+Now we will set up the root directories.  The root directory for the AFS
+namespace is in the volume called `root.afs`. The root directory of your cell
+should be in a volume called `root.cell`. You will need to set the ACLs for
+these directories.  AFS access rights are rather different from those in UNIX.
+I suggest reading the IBM documentation for this; it still applies.
+
+The cache manager is started in `-dynroot` mode on RPM-based installations.
+This allows the cache manager to mount the AFS filesystem without the need to
+contact the OpenAFS servers. The side-effect of `-dynroot` is the `root.afs`
+volume cannot be accessed directly.  Fortunately, we can use "magic" `.:mount`
+directory to access the `root.afs` volume.
+
+Set up the top level directories.
+
+    $ cellname=$(cat /usr/vice/etc/ThisCell)
+    
+    $ cd /afs/.:mount/${cellname}:root.afs/
+    $ fs mkmount ${cellname} root.cell -cell ${cellname}
+    $ fs mkmount .${cellname} root.cell -cell ${cellname} -rw
+    $ fs setacl . system:anyuser read
+    
+    $ cd /afs/.:mount/${cellname}:root.cell/
+    $ fs setacl . system:anyuser read
+
+Replicate the root volumes so that you have read only copies.  Later, if more
+file servers are added to the cell, additional read-only copies should be made.
+
+    $ server=<hostname of the fileserver>
+    $ vos addsite ${server} a root.afs
+    $ vos release root.afs
+    $ vos addsite ${server} a root.cell
+    $ vos release root.cell
+
+## Adding users and volumes
+
+Now that OpenAFS is installed, the site specific AFS volumes and directory
+structure can be set up. Users should be made, along with their home
+volumes. ACLs for the volume directories should be established.
+
+This section provides an example setup. The names of the volumes and
+directories can be specific to your needs.
+
+You must first authenticate as a Kerberos/AFS admin to run the commands
+shown in this section.
+
+    $ kadmin <username>/admin
+    $ aklog
+
+### Creating user accounts
+
+We can create a user by registering it to Kerberos and the `ptserver` database.
+If you use integrated login, make sure that the users' UNIX uids and pts ids
+match.
+
+    $ kadmin -q "addprinc <username>"
+    <enter password for username>
+    $ pts createuser <username> -id <numeric uid>
+
+If you use integrated login, make sure that you add an entry to /etc/passwd or
+whatever means you use of distributing user information.
+
+### Setting up volumes for users
+
+First, we can make a top level volume to contain the mount points to volumes
+for individuals. The IBM documentation suggests making a directory
+`/afs/<cellname>/user` with volume name user for all of your AFS users. Some
+sites have adopted the directory `home` instead of `user`.  If you use `home`,
+your users may feel more comfortable, as this is the convention in Linux and
+most UNIXes.
+
+The following commands create the `home` volume and make a read-only replica:
+
+    $ vos create <fileserver> a home
+    $ cd /afs/.<cellname>
+    $ fs mkmount home home
+    $ vos addsite <fileserver> a home
+    $ vos release root.cell
+    $ vos release home
+
+Now you can create directories for any of your users. We will not replicate
+these volumes. By not replicating them, we force the cache manager to access a
+read/write volume. This means that even if we access the cell through the
+read-only volume we can still access our read/write user directories (this is
+what you want). Maxquota 0 means that there is no size restriction to the
+volume. You can give it a restriction if you like (the default is 5mb). Do
+these commands for every directory you like.
+
+    $ vos create <fileserver> a home.<uid> -maxquota 0
+    $ cd /afs/.<cellname>/home
+    $ fs mkmount <user> home.<uid>
+    $ vos release home
+
+The home volume is released to make the new directories are visible from the
+read only mount point.
+
+### Setting ACLs
+
+Now that we have volumes, we should set some restrictions on those volumes.
+If you trust the users not to make directories *world writable*, you
+can give the user of the directory full rights.
+
+    $ cd /afs/.<cellname>/home
+    $ fs setacl -dir <user> -acl <user> all
+
+To give the users read and write access, but not rights to change ACLs,
+
+    $ cd /afs/.<cellname>/home
+    $ fs setacl -dir <user> -acl <user> write
+
