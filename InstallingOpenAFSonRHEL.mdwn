@@ -222,13 +222,12 @@ directory to verify the `ptserver` and `vlserver` started.
 
 Start the file server. This is a rather long command line.
 
-    # options="-d 1"  TODO: list some practical options
     # bos create localhost \
-       dafs dafs \
-       -cmd "/usr/afs/bin/dafileserver ${options}" \
-       "/usr/afs/bin/davolserver -log" \
+       dafs dafs -cmd \
+       "/usr/afs/bin/dafileserver -p 123 -L -busyat 200 -rxpck 2000 -cb 4000000 -vattachpar 128 -vlruthresh 1440 -vlrumax 8 -vhashsize 11" \
+       "/usr/afs/bin/davolserver -p 64 -log" \
        "/usr/afs/bin/salvageserver" \
-       "/usr/afs/bin/dasalvager" \
+       "/usr/afs/bin/dasalvager -parallel all32" \
        -localauth
 
 Check the servers logs `BosLog`, `FileLog`, `VolserLog`, and `SalsrvLog`, in
