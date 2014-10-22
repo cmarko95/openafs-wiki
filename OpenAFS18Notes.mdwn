@@ -24,13 +24,14 @@ is created.
 
 Things to be done pre-branching:
  
-* Make roken, hcrypto, and kopenafs use libtool to build
-* Make sure libtool is used properly elsewhere, in particular to install
+* [done] Make roken, hcrypto, and kopenafs use libtool to build
+* [done] Make sure libtool is used properly elsewhere, in particular to install
   shared versions of libafsrpc and libafsauthent, which we ship in
   1.6 but do not currently install on master
-* Relatedly, verify that the libraries we do ship do not depend on things
+* [done] Relatedly, verify that the libraries we do ship do not depend on things
   that we don't ship.
-* (Optional) Look at the feasibility of installing shared liboafs_foo,
+* [done; unfeasible]
+  (Optional) Look at the feasibility of installing shared liboafs_foo,
   and using dynamic linkage for the client utilities.
 * (rxosd is not going to make it unless someone steps up to do the work;
   we can't block the branch indefinitely on it.)
@@ -38,13 +39,14 @@ Things to be done pre-branching:
   in servers, etc..
 * Relatedly, check that the kernel module is properly built and loadable
   on a variety of linuxen.
-* Draft Debian packaging (which will help with a lot of the libtool
+* [done] Draft Debian packaging (which will help with a lot of the libtool
   validation).
-* Whitespace cleanup.
+* [done] Whitespace cleanup.
 * Any other tree-wide cleanup that people want to get in.
-* Adjust the default behavior of configure (pthreaded ubik?  more?)
+* [partially? done]
+  Adjust the default behavior of configure (pthreaded ubik?  more?)
 * Beg and plead for documentation updates.
-* Tie the installation of the pam module to --enable/disable-kauth
+* [done] Tie the installation of the pam module to --enable/disable-kauth
 
 Things to be removed from 1.8 post-branch:
  
