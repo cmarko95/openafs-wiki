@@ -22,7 +22,7 @@ done before branching, things to be removed from the 1.8 branch after
 it is created, and things to be removed from master after the 1.8 branch
 is created.
 
-Things to be done pre-branching:
+Things to be done pre-branching (aka before pre1):
  
 * [done] Make roken, hcrypto, and kopenafs use libtool to build
 * [done] Make sure libtool is used properly elsewhere, in particular to install
@@ -48,17 +48,17 @@ Things to be done pre-branching:
 * Beg and plead for documentation updates.
 * [done] Tie the installation of the pam module to --enable/disable-kauth
 * fix issues with HOST_TO_ZERO and tmay (see gerrit 11287/11290 and related)
-
-Things to be done before 1.8 release (but not necessarily before branching):
-
 * Go through outstanding changes against master and determine
   which should get pulled in for 1.8
-* Documentation fixes needed before release but not necessarily
-  before branch: KeyFileExt, converting keys from 1.6 to 1.8 format, ...
+* Document KeyFileExt and how to migrate keys from 1.6 to 1.8 format
+* remove vos release -stayup
 * Investigate volume header update issues; volume update time is not
   changed by admin operations that alter metadata such as quota, which
   could subsequently get lost.
-* Investigate whether vos release -stayup should be removed.
+
+Things to be done before 1.8 release (but not necessarily before branching):
+
+* Documentation fixes (which ones?)
 * Investigate "lockless path through d_revalidate" for potential issues (?)
 
 Things to be removed from 1.8 post-branch:
