@@ -7,10 +7,9 @@ page.
 
 ### Linux ###
 
-* [[Server and client installation on RHEL/Centos|InstallingOpenAFSonRHEL]] - step-by-step instructions on installing an OpenAFS v1.6.x and Kerberos on RHEL/Centos
-* [[Server and client installation on Fedora|FedoraAFSInstall]] - step-by-step instructions on installing an OpenAFS v1.4.x on Fedora 7 with [[kerberos|KerberosV]]
+* [[Server and client installation on RHEL|InstallingOpenAFSonRHEL]] - step-by-step instructions on installing an OpenAFS v1.6.x and Kerberos on RHEL/Centos Linux
 * [[Client installation notes|InstallOpenAFSClient]]
-* [[Client installation using Linux DKMS|RpmClientInstallationWithDKMS]] - instructions on installing the openafs kernel module with the DKMS RPM package
+* [[Installing the OpenAFS kernel module with DKMS|RpmClientInstallationWithDKMS]]
 
 ### Windows ###
 
@@ -25,7 +24,6 @@ page.
 ## Other tasks ##
 
 * [[Backup methods|BackupMethods]]
-* [[Example USS Templates|ExampleUSSTemplates]]
 
 ## Additional information ##
 
@@ -34,20 +32,13 @@ page.
 ## External guides and information ##
 
 These are some links to various documents that exist online that describe
-creating a new AFS cell. The most common problem with a lot of existing
-documentation is that it has you install the kaserver, which is highly
-deprecated. Any new cell installation really should install a conventional
-kerberos server (MIT, Heimdal and the Windows Active Directory server all have
-been used as kerberos servers for various AFS cells).
+creating a new AFS cell.
 
 * [OpenAFS server tutorial for Debian Squeeze](http://openafs.dk/doku.php?id=server:start)
-* The Gentoo [OpenAFS Guide](http://www.gentoo.org/doc/en/openafs.xml) From the Gentoo Linux distribution.
-* [Using NetBSD to provide AFS and Kerberos
-  services](http://kula.tproa.net/talks/afsbpw2005) Talk from the 2005 AFS &amp;
-  Kerb Workshop, describing how to use [[NetBSD]] to provide AFS and Kerberos
-  services. Some steps are [[NetBSD]] specific, but there are key bits of info in
-  there on using a Heimdal KDC as your kerberos server.
+* [The Gentoo OpenAFS Guide](http://www.gentoo.org/doc/en/openafs.xml)
+* [Using NetBSD to provide AFS and Kerberos services](http://kula.tproa.net/talks/afsbpw2005)
 * [How to use Active Directory as your kerberos server for an AFS cell](http://www.pmw.org/afsbpw06/talks/shadow-AD.pdf) (pdf)
+* [Using OS X to provide AFS and Kerberos services](http://kula.tproa.net/talks/afsbpw2006)
 * [AFS intro doc at Stanford](http://www.stanford.edu/services/afs/intro/)
 * [AFS into at IBM developerworks](http://www.ibm.com/developerworks/opensource/library/os-openafs-kerberos5/index.html)
 
