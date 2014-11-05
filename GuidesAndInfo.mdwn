@@ -28,10 +28,9 @@ Guides and information about setting up and using OpenAFS.
 Guides on creating a new AFS cell on various platforms can be found in these
 external documents:
 
-* [OpenAFS server tutorial for Debian Squeeze](http://openafs.dk/doku.php?id=server:start)
+* [An OpenAFS Tutorial for Debian](http://openafs.dk/doku.php?id=server:start)
 * [The Gentoo OpenAFS Guide](http://www.gentoo.org/doc/en/openafs.xml)
 * [Using NetBSD to provide AFS and Kerberos services](http://kula.tproa.net/talks/afsbpw2005)
-* [How to use Active Directory as your kerberos server for an AFS cell](http://www.pmw.org/afsbpw06/talks/shadow-AD.pdf) (pdf)
 * [Using OS X to provide AFS and Kerberos services](http://kula.tproa.net/talks/afsbpw2006)
 
 General information about AFS and OpenAFS can be found in the following external documents.
