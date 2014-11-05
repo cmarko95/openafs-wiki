@@ -1,40 +1,32 @@
-Add your tips and information about setting up and using OpenAFS to this
-page.
+Guides and information about setting up and using OpenAFS.
 
-[[!toc levels=3]]
+## Installation
 
-## Installation ##
+*Guides for Linux*
 
-### Linux ###
-
-* [[Server and client installation on RHEL|InstallingOpenAFSonRHEL]] - step-by-step instructions on installing an OpenAFS v1.6.x and Kerberos on RHEL/Centos Linux
-* [[Client installation notes|InstallOpenAFSClient]]
+* [[Server and client installation on RHEL|InstallingOpenAFSonRHEL]]
+* [[Client installation notes for Linux|InstallOpenAFSClient]]
 * [[Installing the OpenAFS kernel module with DKMS|RpmClientInstallationWithDKMS]]
 
-### Windows ###
+*Guides for Windows*
 
 * [[Windows quick start guide|WindowsEndUserQuickStartGuide]]
 * [[Windows kerberos 5 AFS service principal|WindowsK5AfsServicePrincipal]]
 * [[How to setup OpenAFS with Windows 2008 R2 AD server|Win2008R2ADasKDC]]
 
-### Solaris ###
+*Guides for Solaris*
 
-* [[Solaris / OpenIndiana quick start guide|SolarisQuickStart]]
+* [[Solaris and OpenIndiana quick start guide|SolarisQuickStart]]
 
-## Other tasks ##
+*Additional information*
 
 * [[Backup methods|BackupMethods]]
-
-## Additional information ##
-
 * [[Ports used by OpenAFS|AFSServicePorts]]
 
 ## External Documents
 
-### Creating a new AFS cell with OpenAFS
-
-The following external documents describe how to create a new AFS cell with
-OpenAFS on various platforms.
+Guides on creating a new AFS cell on various platforms can be found in these
+external documents:
 
 * [OpenAFS server tutorial for Debian Squeeze](http://openafs.dk/doku.php?id=server:start)
 * [The Gentoo OpenAFS Guide](http://www.gentoo.org/doc/en/openafs.xml)
@@ -42,7 +34,7 @@ OpenAFS on various platforms.
 * [How to use Active Directory as your kerberos server for an AFS cell](http://www.pmw.org/afsbpw06/talks/shadow-AD.pdf) (pdf)
 * [Using OS X to provide AFS and Kerberos services](http://kula.tproa.net/talks/afsbpw2006)
 
-### General Information about AFS
+General information about AFS and OpenAFS can be found in the following external documents.
 
 * [Stanford AFS Introduction](http://www.stanford.edu/services/afs/intro/)
 * [IBM Developerworks AFS Introduction](http://www.ibm.com/developerworks/opensource/library/os-openafs-kerberos5/index.html)
