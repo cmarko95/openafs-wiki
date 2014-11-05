@@ -13,7 +13,7 @@ installation.
 
 An OpenAFS installation requires one or more servers for file storage. These
 may be physical or virtual machines, running a unix-like operating system, such
-as Solaris, Linux, *BSD.  Not all the servers for a site need to be running the
+as Solaris, Linux, BSD.  Not all the servers for a site need to be running the
 same architecture and operating system, and it is not uncommon to have a
 mixture of file servers running different operating systems or versions.  Each
 file storage servers should have one or more unix filesystem partitions for
