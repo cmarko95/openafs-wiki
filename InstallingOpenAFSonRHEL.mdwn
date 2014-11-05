@@ -1,7 +1,7 @@
 
 This is a step-by-step guide to installing OpenAFS and setting up an AFS cell
 on RedHat Enterprise Linux, Fedora, or CentOS.  This guide is current as of
-OpenAFS version 1.6.9 on CentOS 6.5.
+OpenAFS version 1.6.10 on CentOS 6.
 
 This document is based on [[Steven Pelley's guide for installing OpenAFS 1.4.x on Fedora|FedoraAFSInstall]].
 
@@ -185,7 +185,7 @@ definition with
     # version=<version>
     # rpm -i http://openafs.org/dl/openafs/${version}/openafs-release-rhel-${version}-1.noarch.rpm
 
-where `<version>` is the OpenAFS version you wish to install, e.g. "1.6.9".
+where `<version>` is the OpenAFS version you wish to install, e.g. "1.6.10".
 
 Use `yum` to install the OpenAFS server packages:
 
