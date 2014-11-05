@@ -31,8 +31,8 @@ page.
 
 ## External guides and information ##
 
-These are some links to various documents that exist online that describe
-creating a new AFS cell.
+The following external documents describe how to install OpenAFS and create a
+new AFS cell on various platforms.
 
 * [OpenAFS server tutorial for Debian Squeeze](http://openafs.dk/doku.php?id=server:start)
 * [The Gentoo OpenAFS Guide](http://www.gentoo.org/doc/en/openafs.xml)
