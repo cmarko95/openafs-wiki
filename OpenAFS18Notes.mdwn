@@ -51,7 +51,7 @@ Things to be done pre-branching (aka before pre1):
 * Go through outstanding changes against master and determine
   which should get pulled in for 1.8
 * Document KeyFileExt and how to migrate keys from 1.6 to 1.8 format
-* Make asetkey list show KeyFileExt keys (and document it)
+* Document asetkey list for KeyFileExt keys
 * remove vos release -stayup
 * Investigate volume header update issues; volume update time is not
   changed by admin operations that alter metadata such as quota, which
