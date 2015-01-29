@@ -1,0 +1,63 @@
+OpenAFS servers run pretty well in lightweight LXC containers!  Lightweight containers reuse the existing operating system install and merely run some set of software inside different namespaces.  [This Oracle documentation](http://docs.oracle.com/cd/E37670_01/E37355/html/ol_app_containers.html) gives some additional details.
+
+### Create UID and GID submap spaces.
+
+If you intend to run the file server containerized, you will need a region of 15-bits of UIDs and GIDs (that is, 32767 IDs) that are, ideally, not in use in the system.  For this example, we use 524288 as the base (i.e., the host ID that will be the "root" user in the container).  Add the line `root:524288:32767` to the files `/etc/subuid` and `/etc/subgid`.  We will be spawning the container as root; you could use another host user there if you liked.  You may, if you like, put 524288 in your password and group databases so that, for example, `ps` displays something more informative than the number; this is not required.
+
+If you do not intend to run the fileserver in this container, it is likely that only the one UID corresponding to container root is needed.  Adjust the `32767`s below downwards.
+
+### Create a filesystem tree for the container
+
+For this example, we will use `/home/lxc-afs` to hold all the AFS data, including server configuration and partitions.  (If desired, things could be bind-mounted into this tree from other locations on disk; for example, one could make a read-only mount of configuration data in the container's `/etc`.)  Note that this example was done using the Arch Linux packaging of OpenAFS, which differs from most others in its use of `/usr/var/openafs` rather than `/var/openafs`; please adjust the commands below appropriately if you use different packaging.  We will also begin with a single partition, vicepa, which is hosted on the same host filesystem as the container itself; again, mountpoints can be changed as desired.
+
+We begin by creating the directory tree and populating some device nodes; note that mknod is restricted from within a container, so we do this from without:
+
+    mkdir -p /home/lxc-afs/{bin,dev,etc/openafs/server,lib,proc,sbin,usr/{bin,lib,share,var/openafs,sbin},vicepa}
+    pushd /home/lxc-afs/dev
+    mkdir mqueue pts shm
+    mknod console c 5 1
+    mknod full c 1 7
+    mknod null c 1 3
+    mknod pmtx c 5 2
+    mknod random c 1 8
+    mknod urandom c 1 9
+    mknod zero c 1 5
+    popd
+    chown -R 524288:524288 /home/lxc-afs
+
+### Create an LXC configuration file and spawn a shell
+
+We now need a configuration file for the LXC container.  Place the following at `/home/lxc-afs.conf`:
+
+    lxc.utsname = lxcafs
+    lxc.rootfs = /home/lxc-afs
+    lxc.cap.keep = none
+    lxc.network.type = none
+    lxc.pts = 16
+    lxc.id_map = u 0 524288 32767
+    lxc.id_map = g 0 524288 32767
+    lxc.mount.auto=proc:mixed
+    lxc.mount.entry=/lib       lib       none  ro,bind  0 0
+    lxc.mount.entry=/bin       bin       none  ro,bind  0 0
+    lxc.mount.entry=/usr/bin   usr/bin   none  ro,bind  0 0
+    lxc.mount.entry=/usr/lib   usr/lib   none  ro,bind  0 0
+    lxc.mount.entry=/usr/share usr/share none  ro,bind  0 0
+    lxc.mount.entry=/sbin      sbin      none  ro,bind  0 0
+    lxc.mount.entry=tmpfs      /dev/shm  tmpfs defaults 0 0
+
+It's easiest to bring up a shell prompt within the container and run the remainder of the setup there.  On the host, run `lxc-execute -n afs-maint -f /home/lxc-afs.conf -- bash`.  This command can be rerun whenever you need a shell "next to" the AFS servers.  At that prompt, you'll want to populate common files, like `/etc/hosts`, `/etc/krb5.conf`, the contents of `/etc/openafs/server`, and `/usr/var/openafs/NetInfo`, as you would any other AFS server.  Be sure to land a `/etc/openafs/server/rxkad.keytab` file.
+
+If you watch, you'll note that while this shell believes these files are owned by root, the host filesystem has them owned by `524288`.  The host `ps`, likewise, will show your shell running as `524288`.  (Note that ownership of files owned by users outside the container's range will get mapped to `nobody`, and mode bits may be squashed.  If files in `/home/lxc-afs` are actually owned by host `root`, for example, they may be unreadable within the container!  This may lead to all kinds of interesting problems, so if things seem to be going wrong, check that first.)
+
+### Launch bosserver
+
+When the initial configuration is done, you should spawn a bosserver.  On the host, create `/home/lxc-afs.sh` containing
+
+    #!/bin/sh
+    exec lxc-execute -n afs -f /home/lxc-afs.conf -- /usr/bin/bosserver -nofork
+
+and either run it by hand or use your host system's process management (sysvinit, systemd, ...) to run it.  This creates a separate container (using the same configuration file) for the bosserver.  From the `afs-maint` shell earlier, you should now see `bos status localhost` returning without error.
+
+### Set up AFS
+
+At this point, proceed to configure your AFS servers as you would any other; they will run as container root and be able to do the chowns and chmods that they need for the backing store, and will perceive their own UID as 0 without actually having any POSIX capabilities that usually come along with being UID 0.
