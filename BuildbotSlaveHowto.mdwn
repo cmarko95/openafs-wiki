@@ -78,6 +78,10 @@ _Compile OpenAFS from git_
 
 Use git to clone the openafs repo, then make sure the software will compile successfully. For Unix platforms, the typical build process is 
 "sh regen.sh && ./configure && make && make dest"
+The actual buildbot builds will configure using the --enable-checking argument
+to configure (as well as several others); this activates more compiler errors
+and you will probably want to do manual builds with checking enabled, to
+fix any build errors encountered before the buildslave enters regular use.
 
 _Create buildbot account and home directory_
 
@@ -109,6 +113,10 @@ Buildbot will not touch anything outside of this directory.
 Substituting the appropriate values from above, the execute:
 
 /path/to/buildbot create-slave /home/buildbot/slave1 buildmaster_host:port slavename passwd
+
+Starting with buildbot version 0.8, the command-line tool was split into
+buildbot and buildslave, so the buildslave utility should be used with such
+newer buildbot versions.
 
 Check the configuration file /home/buildbot/slave1/buildbot.tac to make sure the settings you entered are reflected in it.
 Make sure that "usepty" is set to "0". "usepty = 1" it is known to fail on at least one architecture.
