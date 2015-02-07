@@ -31,7 +31,7 @@ We now need a configuration file for the LXC container.  Place the following at 
 
     lxc.utsname = lxcafs
     lxc.rootfs = /home/lxc-afs
-    lxc.cap.keep = none
+    lxc.cap.keep = chown dac_override dac_read_search fowner
     lxc.network.type = none
     lxc.pts = 16
     lxc.id_map = u 0 524288 32767
@@ -44,6 +44,10 @@ We now need a configuration file for the LXC container.  Place the following at 
     lxc.mount.entry=/usr/share usr/share none  ro,bind  0 0
     lxc.mount.entry=/sbin      sbin      none  ro,bind  0 0
     lxc.mount.entry=tmpfs      /dev/shm  tmpfs defaults 0 0
+
+If you are not intending to run the file server inside the container, you may replace the capability grants with
+
+    lxc.cap.keep = none
 
 It's easiest to bring up a shell prompt within the container and run the remainder of the setup there.  On the host, run `lxc-execute -n afs-maint -f /home/lxc-afs.conf -- bash`.  This command can be rerun whenever you need a shell "next to" the AFS servers.  At that prompt, you'll want to populate common files, like `/etc/hosts`, `/etc/krb5.conf`, the contents of `/etc/openafs/server`, and `/usr/var/openafs/NetInfo`, as you would any other AFS server.  Be sure to land a `/etc/openafs/server/rxkad.keytab` file.
 
