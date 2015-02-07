@@ -64,4 +64,4 @@ and either run it by hand or use your host system's process management (sysvinit
 
 ### Set up AFS
 
-At this point, proceed to configure your AFS servers as you would any other; they will run as container root and be able to do the chowns and chmods that they need for the backing store, and will perceive their own UID as 0 without actually having any POSIX capabilities that usually come along with being UID 0.
+At this point, proceed to configure your AFS servers as you would any other; they will run as container root and be able to do the chowns and chmods that they need for the backing store, and will perceive their own UID as 0 without actually having any POSIX capabilities that usually come along with being UID 0 (other than those granted above, of course, which are necessary for the namei fileserver backend's operation).
