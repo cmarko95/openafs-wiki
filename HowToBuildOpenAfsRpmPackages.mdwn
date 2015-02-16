@@ -16,9 +16,17 @@ binaries RPM package files.
     $ ./regen.sh
     $ ./configure
     $ make dist     # not make dest !
-    $ make sprm
+    $ make sprm     #?? not "make srpm" ???
     $ rpmbuild --rebuild -ba --define "_topdir $(pwd)/rpmbuild" packages/openafs-<version>-1.src.rpm
 
 The packages will be created in the `rpmbuild/RPMS` directory.  See the RPM
 spec file in src/packaging/RedHat for the OpenAFS `--define` options.
 
+Comment: This sequence of "make" doesn't compile anything, and furthermore "make srpm" says: 
+
+    $ make srpm
+    (cd packages && ../src/packaging/RedHat/makesrpm.pl *-src.tar.bz2 *-doc.tar.bz2)
+    tar: Pattern matching characters used in file names
+    tar: Use --wildcards to enable pattern matching, or --no-wildcards to suppress this warning
+    tar: */configure.ac: Not found in archive
+    ...
