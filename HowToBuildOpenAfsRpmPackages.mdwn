@@ -22,7 +22,7 @@ binaries RPM package files.
 The packages will be created in the `rpmbuild/RPMS` directory.  See the RPM
 spec file in src/packaging/RedHat for the OpenAFS `--define` options.
 
-Comment: This sequence of "make" doesn't compile anything, and furthermore "make srpm" says: 
+Comment: "make srpm" says: 
 
     $ make srpm
     (cd packages && ../src/packaging/RedHat/makesrpm.pl *-src.tar.bz2 *-doc.tar.bz2)
