@@ -1,0 +1,13 @@
+Linux has had an in-tree AFS client cache manager ("kAFS") for some time now.  Official documentation exists in the kernel tree and is available via the web at [[https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/Documentation/filesystems/afs.txt]].  That document details how to build kAFS support into the kernel, how to mount AFS, and more.
+
+### Using the Linux Kernel Keyring facilities for Tokens
+
+Chaskiel Grundman has written a kafs-friendly `aklog` program which uses krb5 tickets to obtain AFS tokens and install them into the kernel keyring.  It is available, under GPLv2 or later, as `aklog-kafs-kdf.c` in [[file:///afs/andrew.cmu.edu/usr18/cg2v/src/kafs/]] (grab the whole directory and run `make`; if your cell is not using rxkad-kdf, [[file:///afs/andrew.cmu.edu/usr18/cg2v/src/kafs/aklog-kafs.c]] is also available).
+
+### Userland Utilities Using Linux AF_RXRPC Support
+
+As part of the kAFS effort, the Linux kernel now offers AF_RXRPC sockets.  A series of AFS userland utilities written to use this implementation of rx is available at [[http://git.infradead.org/users/dhowells/kafs-utils.git]]; the code is mostly Python with some FFI shims and is available under GPLv2 or later.
+
+### Additional Resources
+
+* [[http://workshop.openafs.org/afsbpw09/talks/thu_2/kafs.pdf]] -- Slides from a 2009 talk by D. Howells.
