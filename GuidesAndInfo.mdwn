@@ -8,6 +8,7 @@ Guides and information about setting up and using OpenAFS.
 * [[Client installation notes for Linux|InstallOpenAFSClient]]
 * [[Installing the OpenAFS kernel module with DKMS|RpmClientInstallationWithDKMS]]
 * [[Installing OpenAFS in Lightweight LXC containers|InstallingOpenAFSinLXC]]
+* [[Notes on Linux's built-in kAFS support|LinuxKAFSNotes]]
 
 *Guides for Windows*
 
