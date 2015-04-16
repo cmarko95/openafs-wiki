@@ -333,6 +333,68 @@ When a rebase is performed there may be conflicts that cannot be automatically r
 
 After you have resolved all conflicts and are once again happy with the commit, simply resubmit your change in the same way as if you had been asked to revise it (see notes above)
 
+## <a name="Pulling up a change to a stable branch"></a> Pulling Up a Change to a Stable Branch
+
+After a change has passed through the Gerrit Code Review process it will be merged onto the <tt>master</tt> branch of the OpenAFS repository.  The merged commit will then become visible in your local repository the next time a 
+
+    git pull
+
+command is executed.  OpenAFS releases are not issued from the <tt>master</tt> branch.  Instead releases such as <tt>1.6.11</tt> are issued from stable branches such as <tt>openafs-stable-1_6_x</tt>.  After a change is approved on <tt>master</tt> the change must be pulled up to the stable branch, be modified for any differences between <tt>master</tt> and <tt>openafs-stable-N_N_x</tt> and be resubmitted to Gerrit.
+
+Start by checking out the stable branch of interest.  For example, if you want to submit a change to the next 1.6 series release you would first checkout <tt>master</tt>.
+
+    git checkout --track origin/master
+
+or just
+
+    git checkout master
+
+if you have already created the tracking branch.  Then
+
+    git pull
+
+to import any new changes to the local repository and fast-forward <tt>HEAD</tt> to the most recent commit merged onto <tt>origin/master</tt>.   It is important to note that if any local changes were committed onto the local <tt>master</tt> tracking branch that a fast-forward operation will not occur.  Instead the local changes and the changes to origin will be merged producing a merge commit.  A merge commit is not compatible with the OpenAFS management of the git repository.   To rebase local changes onto of the <tt>HEAD</tt> of <tt>origin/master</tt> the command
+
+    git pull --rebase
+
+can be performed.  If there are conflicts when applying the local changes to current <tt>HEAD</tt> of <tt>origin/master</tt> you will have an opportunity to resolve them.
+
+Once the change you wish to pullup to the stable branch is in the local repository you can use
+
+    git log master
+
+to find it and record the sha1 identifier for the commit.   Now you are ready to switch to the stable branch for example, <tt>openafs-stable-1_6_x</tt>.   If you do not already have a local tracking branch execute
+
+    git checkout --track origin/<stable-branch>
+
+and if you do then execute
+
+    git checkout <stable-branch>
+
+After switching branches you might be told that the local branch is behind the <tt>origin</tt>.  If so, execute
+
+    git pull
+
+to fast-forward the branch <tt>HEAD</tt> to the most recent commit.   Now you can pull the commit from <tt>master</tt> by using performing a cherry-pick:
+
+    git cherry-pick -x <sha1>
+
+This will create a new commit on the current branch with a commit message that has been modified with
+
+    (cherry picked from commit <sha1>)
+
+This commit message will include the <tt>Change-Id</tt> from the original submission to Gerrit.  It is important that the <tt>Change-Id</tt> values submitted to Gerrit be unique but Gerrit will not enforce this.  You <b>must</b> remember to edit the commit message and remove the old <tt>Change-Id</tt> using
+
+    git commit --amend
+
+so that the Change ID Hook will generate a new <tt>Change-Id</tt> before pushing the change to Gerrit.
+
+Once the commit message has been ammended and any other required changes are made it is time to push the change to Gerrit:
+
+    git push ssh://gerrit.openafs.org/openafs.git HEAD:refs/for/<stable-branch>/<topic>
+
+The change will then be evaluated by the OpenAFS Release team for incorporation into a future stable release.
+
 ## <a name="Submitting by patch"></a> Submitting by patch
 
 If all of this seems too daunting (and please don't let it put you off) you can still, of course, submit patches by email.
