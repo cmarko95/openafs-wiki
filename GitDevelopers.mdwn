@@ -16,11 +16,11 @@ complex. This document can only scratch the surface of what's possible with git
 - there are many, many, documents available that describe git in greater
 detail, and references to some of them are provided at the end.
 
-## <a name="Getting git"></a> Getting git
+## <a name="Getting git">Getting git</a>
 
 Firstly, if your machine doesn't already have it installed, get a copy of the 'git' version control system. This is available for many platforms from their upstream package repositories or, failing that, can be downloaded in both source and binary form from 
 
-## <a name="Getting the _OpenAFS repository"></a> Getting the OpenAFS repository 
+## <a name="Getting the _OpenAFS repository">Getting the OpenAFS repository</a>
 
 You can download the entire OpenAFS repository by running
 
@@ -34,7 +34,7 @@ to place your clone in a specific directory
 
 This will give you a complete copy of the OpenAFS repository and unless you are exceptionally short of either disk space, or time, is the approach we recommend. Unlike CVS, you are not just checking out a particular branch, but making a local copy of the project's whole revision history, across all of it's branches. This does make the download pretty large - around 150Mbytes at the time of writing.
 
-## <a name="Updating the local copy"></a> Updating the local copy
+## <a name="Updating the local copy">Updating the local copy</a>
 
 When you want to update the local repository with the central OpenAFS one, running
 
@@ -42,7 +42,7 @@ When you want to update the local repository with the central OpenAFS one, runni
 
 will pull all of the new changes into your local repository, and merge those changes into your current working tree. Note that whilst this is fine when you are browsing the repository, you may want to exercise more control over how upstream changes are merged into your development code.
 
-## <a name="Checkout a particular branch"></a> Checkout a particular branch
+## <a name="Checkout a particular branch">Checkout a particular branch</a>
 
 The OpenAFS repository contains many branches, most of which are historical and should not be used for new development. Current development should be targetted at 'master' (for feature work, and general bugfixing), or at 'openafs-stable-1\_4\_x' (bug fixes specific to the current stable release). Note that the openafs-devel-1\_5\_x branch is now effectively dead - future 1.5 releases will occur from the 'master' branch.
 
@@ -68,7 +68,7 @@ or, more simply
 
 or by creating a topic branch as discussed below.
 
-## <a name="Checkout a particular release"></a> Checkout a particular release
+## <a name="Checkout a particular release">Checkout a particular release</a>
 
 Every release version of [[OpenAFS]] is marked in the repository by means of a tag.
 
@@ -87,7 +87,7 @@ is discussed below. However, in general, please don't develop from a particular
 tag, but instead work from a branch tip. It makes it much easier to integrate
 your changes!
 
-## <a name="Viewing deltas"></a> Viewing deltas
+## <a name="Viewing deltas">Viewing deltas</a>
 
 OpenAFS's original CVS repository used the concept of deltas as a means of
 grouping a large number of related changes into a single item, which could be
@@ -113,7 +113,7 @@ trailing -part-, where each of these numbers must be used to form the complete
 delta. This only applies to some deltas created before the git conversion - all
 deltas created from now on will be single commits.
 
-## <a name="Introducing yourself to git"></a> Introducing yourself to git
+## <a name="Introducing yourself to git">Introducing yourself to git</a>
 
 Before you begin development, you should let git know who you are. This
 provides it with a name, and email address, that is used to attribute all
@@ -138,7 +138,7 @@ registering, and it'll make sure your pre-registration development has the
 appropriate change IDs in the log. The hook only applies to your openafs
 development, so you're not going to mess up any of your non-OpenAFS work.
 
-## <a name="Helpful git tips"></a> Helpful git tips
+## <a name="Helpful git tips">Helpful git tips</a>
 
 Here are a few other git settings that may be helpful when working with the source.
 
@@ -156,7 +156,7 @@ Whitespace handling settings:
     git config core.whitespace trailing-space,space-before-tab,indent-with-non-tab
     git config config.cleanup whitespace
 
-## <a name="Starting development"></a> Starting development
+## <a name="Starting development">Starting development</a>
 
 We strongly recommend that you do all of your development upon 'topic branches'
 This allows you to isolate multiple unrelated changes, and makes it easier to
@@ -184,7 +184,7 @@ This puts me on a new branch, ready to start writing code. All new development s
 
 'git commit -a' is used to commit code to all of the files that git is currently tracking (that is, all of the files that you have checked out from the repository, and all those which you have run git add on)
 
-## <a name="When you can&#39;t see the wood for"></a><a name="When you can&#39;t see the wood for "></a> When you can't see the wood for the trees
+## <a name="When you can&#39;t see the wood for">When you can't see the wood for the trees</a>
 
 If, in the middle of development, you discover that you've gone down a blind alley, and wish to go back to the state of your last commit
 
@@ -196,7 +196,7 @@ will discard all of the changes you have made since the last commit, or
 
 will restore &lt;file&gt; to the state it was in at the last commit.
 
-## <a name="Keeping up with the Jones&#39;"></a> Keeping up with the Joneses
+## <a name="Keeping up with the Jones&#39;">Keeping up with the Joneses</a>
 
 If you're working on a long running development project, you will find that the point your created your topic branch rapidly recedes into history. At some point (and at least before you share your code with us), you'll probably want to update your tree. There are a number of ways of doing this.
 
@@ -210,7 +210,7 @@ Note that git rebase changes your local history (it moves the branch point of yo
 
 If you can't rebase, then consider either merging the changes onto your local branch, or creating a new topic branch and cherry picking your changes onto it. The man pages for 'git merge' and 'git cherry-pick' provide more detail on these options.
 
-## <a name="Sharing your code with us"></a> Sharing your code with us
+## <a name="Sharing your code with us">Sharing your code with us</a>
 
 How you work from this point onwards depends on how you intend making your code available to OpenAFS. We're still happy to receive submission by patch (by sending your changes to <openafs-bugs@openafs.org>), but it makes it much easier for us if you push directly from your git tree to our code review system, gerrit.
 
@@ -239,7 +239,7 @@ To make things easier, set up OpenSSH so that it knows about the defaults for th
 
 (where Username is the username you noted down from the 'Profile' page)
 
-### <a name="The change id hook"></a> The change id hook
+### <a name="The change id hook">The change id hook</a>
 
 Gerrit introduces the concept of "change IDs". This is a unique reference for a particular change, which remains constant regardless of any changes that are made to the implementation. This allows a single reference to be attached to a given modification, irrespective of any rewrites that may occur as a result of review comments. Manually maintaining change Ids is a pain, so gerrit provides a git hook which can be used to automatically add a change Id to any new modifications you create.
 
@@ -247,7 +247,7 @@ The hook should be downloaded from the [[OpenAFS]] gerrit server by running the 
 
     scp -p -P 29418 gerrit.openafs.org:hooks/commit-msg .git/hooks/
 
-## <a name="Uploading to gerrit"></a> Uploading to gerrit
+## <a name="Uploading to gerrit">Uploading to gerrit</a> 
 
 When submitting to gerrit, it's important to realise that each commit in your branch will become a changeset in the upstream OpenAFS, typically with no modification at our end. It is therefore important that these commits follow some simple rules...
 
@@ -309,7 +309,7 @@ This relies upon the ssh configuration you performed earlier. If it fails to wor
 
 Assuming all has gone well, this will have added the entry to the code review queue. The output from git review will give you a change number - this is a unique reference for this particular set of changes. During review you'll be emailed with any comments anyone makes, and can respond to those comments using the gerrit web interface (see the section on reviewing, below). It's possible that issues with your change may be noticed during the review process, and you may be asked to revise it, or update changes to the tip of the tree.
 
-## <a name="Revising your change"></a> Revising your change
+## <a name="Revising your change">Revising your change</a> 
 
 It's possible that your modifications won't be accepted first time. In this case, you need to revise your changes, and resubmit them to gerrit. Please note that this should always be done by modifying your original changeset, _not_ by submitting a new change that makes the required fixes. Either git commit -a --amend, or git rebase should be used to combine your changes with the original changeset, and then you should push this to gerrit with
 
@@ -317,7 +317,7 @@ It's possible that your modifications won't be accepted first time. In this case
  
 where &lt;revision&gt; is the SHA-1 hash of the revised change that follows the word <tt>commit</tt> in the log message, or simply <tt>HEAD</tt> if the revised change is the most recent change on your topic branch.  You can obtain the SHA-1 hash of a commit by using 'git log'.  Note that pushing to <tt>refs/for/...</tt> _requires_ a change-id in your commit message, so that Gerrit can match to the new change with the one you submitted previously.  See <http://gerrit.googlecode.com/svn/documentation/2.0/user-upload.html> for full details.
 
-## <a name="Updating your change"></a> Updating your change
+## <a name="Updating your change">Updating your change</a> 
 
 It's possible that your change may have been made against a tree which is too old for it to apply to the tip. In this case, gerrit will let you know that there is a collision, and request that you update the change to the tip.
 
@@ -333,7 +333,7 @@ When a rebase is performed there may be conflicts that cannot be automatically r
 
 After you have resolved all conflicts and are once again happy with the commit, simply resubmit your change in the same way as if you had been asked to revise it (see notes above)
 
-## <a name="Pulling up a change to a stable branch"></a> Pulling Up a Change to a Stable Branch
+## <a name="Pulling up a change to a stable branch">Pulling Up a Change to a Stable Branch</a> 
 
 After a change has passed through the Gerrit Code Review process it will be merged onto the <tt>master</tt> branch of the OpenAFS repository.  The merged commit will then become visible in your local repository the next time a 
 
@@ -415,7 +415,7 @@ For each commit on your local branch after the most recent patch on "master", a 
 
 Regardless of which approach you use, you can e-mail the changes to <openafs-bugs@openafs.org> as before. Note, however, by doing this you're making someone else take the patch, create a topic branch in their local tree, apply the patch, push it into gerrit, and become responsible for managing the review process. Things would be much more efficient if you pushed into gerrit yourself. Please?
 
-## <a name="Reviewing changes"></a> Reviewing changes
+## <a name="Reviewing changes">Reviewing changes</a> 
 
 We'll now look at how changes that have made it into gerrit can be reviewed. All code review now happens via the <http://gerrit.openafs.org> interface. You should log in there as detailed above (using any OpenID), and make sure that the email address points to somewhere you'll read regularly.
 
@@ -429,7 +429,7 @@ To verify the code, pull the git copy into your local tree, using the git comman
 
 And that's pretty much it. All of this is very new. If you encounter any problems at all, please ask for help on IRC in #openafs, Jabber in <openafs@conference.openafs.org> or on <openafs-devel@openafs.org>. Private pleas may be addressed to <simon@sxw.org.uk>
 
-## <a name="Further Reading"></a> Further Reading
+## <a name="Further Reading">Further Reading</a> 
 
 Git Magic <http://www-cs-students.stanford.edu/~blynn/gitmagic/>
 
@@ -443,7 +443,7 @@ Gerrit Documentation <http://gerrit.googlecode.com/svn/documentation/2.0/index.h
 
 Five advanced Git merge techniques <http://blog.ezyang.com/2010/01/advanced-git-merge/>
 
-## <a name="Acknowledgments"></a> Acknowledgments
+## <a name="Acknowledgments">Acknowledgments</a> 
 
 Thanks to everyone who has reviewed this document, and offered corrections and contributions.
 
