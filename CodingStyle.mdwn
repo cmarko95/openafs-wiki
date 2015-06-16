@@ -185,7 +185,7 @@ All new code must compile cleanly when configured with --enable-warnings
 - Always use size\_t for sizes of objects, not int or unsigned long, even if they're small objects. Exception: wire protocol objects should instead use types with explicit sizes, such as afs\_int32.
 - Always use either size\_t or ptrdiff\_t for offsets into data structures or memory blocks, not int or long.
 - All new APIs that take buffers should also take the length of the buffer as an additional parameter.
-- Where possible, move assignments outside of conditionals. In general, write code = function(); if (code = 0) not if ((code = function()) = 0).
+- Where possible, move assignments outside of conditionals. In general, write code = function(); if (code == 0) not if ((code = function()) == 0).
 - Don't write new functions which take arrays as arguments
 
 ## <a name="Unix kernel module"></a> Unix kernel module
