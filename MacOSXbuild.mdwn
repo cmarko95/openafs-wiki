@@ -2,14 +2,28 @@ First, if you have trouble, or what's below does not work, sign up for <https://
 
 See [this link](https://lists.openafs.org/pipermail/port-darwin/2011-August/001373.html) for some history
 
-To build on Mountain Lion, make sure you have Xcode and Packagemaker, and the following configure/build options have been reported to work:
+To build on Mountain Lion and higher, make sure you have Xcode (including the command line developer tools) and Packagemaker. PackageMaker is not included in the current version of Xcode and must be downloaded as part of an older release of XCode.
+
+You will also need libtool, automake, and autoconf. These can be installed from [MacPorts](https://www.macports.org) via the following commands:
+
+    port install libtool
+    port install automake
+    port install autoconf
+
+, and the following configure/build options have been reported to work:
 
     ARCHFLAGS="-arch i386 -arch x86_64" ./configure --enable-transarc-paths \
     --with-krb5-conf=/usr/bin/krb5-config --enable-warnings --enable-checking
     ARCHFLAGS="-arch i386 -arch x86_64" make dest
 
-and then the installer is created, as root:
+and then the installer is created, as **root**:
 
     ARCHFLAGS="-arch i386 -arch x86_64" make packages
 
+Because this is not a signed package, you will need to disable Mac security protections to install and run your OpenAFS package. For Yosemite, you must disable kernel extension signing via nvram boot options:
 
+    sudo nvram boot-args kext-dev-mode=1
+
+For El Capitan, you must either install into /usr/local (as of this writing the package scripts are not updated, yet), /opt (by modifying src/packaging/MacOS/buildpkg.sh), or turn off rootless mode (also necessary for an unsigned kernel extension to load). Boot into Recovery via CMD-R and type in:
+
+    csrutil disable
