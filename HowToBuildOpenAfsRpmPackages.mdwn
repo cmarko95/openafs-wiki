@@ -12,41 +12,12 @@ binaries RPM package files.
 
     $ git clone git://git.openafs.org/openafs.git
     $ cd openafs
-    $ git checkout openafs-stable-<version>
+    $ git checkout openafs-stable-<version>  # NOTE: replace dots with underscores in version number
     $ ./regen.sh
     $ ./configure
-    $ make dist     # not make dest !
-    $ make sprm     #?? not "make srpm" ???
+    $ make dist
+    $ make srpm
     $ rpmbuild --rebuild -ba --define "_topdir $(pwd)/rpmbuild" packages/openafs-<version>-1.src.rpm
 
 The packages will be created in the `rpmbuild/RPMS` directory.  See the RPM
 spec file in src/packaging/RedHat for the OpenAFS `--define` options.
-
-Comment: "make srpm" says: 
-
-    $ make srpm
-    (cd packages && ../src/packaging/RedHat/makesrpm.pl *-src.tar.bz2 *-doc.tar.bz2)
-    tar: Pattern matching characters used in file names
-    tar: Use --wildcards to enable pattern matching, or --no-wildcards to suppress this warning
-    tar: */configure.ac: Not found in archive
-    ...
-    tar: Exiting with failure status due to previous errors
-    Unable to unpack src tar ball
-
-Using non-* names doesn't help:
-
-    $ (cd packages; ../src/packaging/RedHat/makesrpm.pl openafs-1.6.11pre1-15-g8f482-src.tar.bz2 openafs-1.6.11pre1-15-g8f482-doc.tar.bz2)
-    tar: Pattern matching characters used in file names
-    tar: Use --wildcards to enable pattern matching, or --no-wildcards to suppress this warning
-    tar: */configure.ac: Not found in archive
-    tar: Pattern matching characters used in file names
-    tar: Use --wildcards to enable pattern matching, or --no-wildcards to suppress this warning
-    tar: */src/packaging/RedHat: Not found in archive
-    tar: Pattern matching characters used in file names
-    tar: Use --wildcards to enable pattern matching, or --no-wildcards to suppress this warning
-    tar: */.version: Not found in archive
-    tar: Pattern matching characters used in file names
-    tar: Use --wildcards to enable pattern matching, or --no-wildcards to suppress this warning
-    tar: */build-tools: Not found in archive
-    tar: Exiting with failure status due to previous errors
-    Unable to unpack src tar ball
