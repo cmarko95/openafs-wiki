@@ -472,7 +472,7 @@ The following file systems have been reported _not_ to work for the AFS client c
 - efs (SGI) - Transarc AFS supported efs, but [[OpenAFS]] doesn't have a license to use the efs code
 - zfs (Solaris, FreeBSD, other ports) - you can however use a zvolume with a ufs or other supported filesystem
 
-The OpenAFS cache manager will detect an unsupported filesystem and refuse to start.
+On certain OSes, the OpenAFS cache manager has some checks for unsupported filesystem types and will refuse to start, but these checks are not 100% reliable.
 
 The following file systems have been reported to work for the AFS client cache:
 
