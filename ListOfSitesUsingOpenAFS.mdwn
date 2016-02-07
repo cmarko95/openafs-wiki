@@ -173,7 +173,7 @@ report for details.
 * University of Wisconsin
 * University Roma Tre - DIA
 * Univ. of Cologne - Inst. for Geophysics & Meteorology
-* Univ. of NC at Chapel Hill, Dept. of Physics
+* Univ. of NC at Chapel Hill - College of Arts & Sciences
 * Univ. of NC at Chapel Hill - ITS
 * US Atlas Tier 1 Facility at BNL
 
