@@ -32,6 +32,7 @@ Solaris, and Linux.
   * [[Where to get help|WhereToGetHelp]]
   * [[Frequently asked questions|AFSFrequentlyAskedQuestions]]
   * A [[list of sites using OpenAFS|ListOfSitesUsingOpenAFS]]
+  * [[Binary Packages Available from Third Parties|BinaryThirdParty]]
 
 ## Get involved
 
