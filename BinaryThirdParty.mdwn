@@ -1,1 +1,55 @@
-### Binary Packages Available from Third Parties ###
+[[!toc Binary Packages Available from Third Parties]]
+# Binary Packages Available from Third Parties #
+
+While OpenAFS.org packages up binary releases of OpenAFS, third parties may also release their own binary packages of OpenAFS. This page is an attempt to collect, in one place, various third party binary packages. Keep in mind that the packages would be supported by the third party and not openafs.org. However, you can still ask the OpenAFS community with questions about how and why things do or do not work.
+
+### Mac OS X ###
+
+Sine Nomine digitally signed 1.6.16 Installers for [10.9](http://download.sinenomine.net/openafs/bins/1.6.16/macos-10.9/), [10.10](http://download.sinenomine.net/openafs/bins/1.6.16/macos-10.10/), and [10.11](http://download.sinenomine.net/openafs/bins/1.6.16/macos-10.11/)
+
+#### Release Notes for Sine Nomine Packages ####
+
+   The disk images provided here provide support for recent Mac OS X
+   versions, including provisional support for System Integrity Protection
+   (aka "rootless") on 10.11.
+
+   Included is an experimental change to the client to support the
+   additional security verification of 10.11, where programs using the
+   native "Cocoa" API will ask various root daemons (taskgated,
+   DesktopServicesHelper, syspolicyd, possibly others depending on
+   configuration) to verify files for them; these daemons do not have
+   access to the user's token, and would normally fail verification as a
+   result. This change means that root can read any AFS-resident file that
+   is locally cached without a token. While this is technically a security
+   violation, it should be noted that all versions of IBM AFS and OpenAFS
+   already allow root (or, with lax cache permissions, potentially any
+   user) to read any locally cached file by accessing the cache directory
+   directly. Thus, the risk this introduces is no greater than the risks
+   already carried by sites using AFS.
+
+   Programs using the BSD APIs do not use the root daemons and work as
+   expected, unless you run a signed binary from OpenAFS, in which case
+   taskgated will attempt to verify the binary's signature and internal
+   requirements and entitlements; this again requires the above root
+   access change.
+
+   On 10.11, client commands are installed to /opt/openafs/bin instead of
+   /usr/bin. The system path database is modified to add this directory to
+   the $PATH of new sessions. Running sessions after initial installation
+   of the client will need to add /opt/openafs/bin to their $PATH
+   manually.
+
+The change to enable root to perform security checks appears to have
+   introduced an occasional issue where tab completion in a directory will
+   not work unless the directory's contents has previously been listed
+   (e.g. with "ls"). While the security checks are only performed on
+   10.11, the root access code path is active in all of the clients, so
+   this will  also occur on 10.9 and 10.10. We are still working on
+   diagnosing the cause, and will provide an updated release when it is
+   available. In testing, this issue has proven uncommon and transient for
+   most sites.
+
+   NOTE: The preference pane remains deprecated in this version of the
+   client. Sine Nomine is working on addressing problems in the preference
+   pane for future versions.
+
