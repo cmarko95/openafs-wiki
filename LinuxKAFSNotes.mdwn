@@ -13,3 +13,4 @@ As part of the kAFS effort, the Linux kernel now offers AF_RXRPC sockets.  A ser
 ### Additional Resources
 
 * [[http://workshop.openafs.org/afsbpw09/talks/thu_2/kafs.pdf]] -- Slides from a 2009 talk by D. Howells.
+* [[http://workshop.openafs.org/afsbpw15/talks/thursday/howells-afs-2015.pdf]] -- Slides from a 2015 talk by D. Howells.
