@@ -3,6 +3,17 @@
 
 While OpenAFS.org packages up binary releases of OpenAFS, third parties may also release their own binary packages of OpenAFS. This page is an attempt to collect, in one place, various third party binary packages. Keep in mind that the packages would be supported by the third party and not openafs.org. However, you can still ask the OpenAFS community with questions about how and why things do or do not work.
 
+### Fedora and CentOS7/RHEL7 ###
+
+#### JSBillings Fedora Copr ####
+
+Repackaged using sources from http://www.openafs.org/. Does not use the spec file included there, but a slimmer package that uses non-transarc paths.
+
+Does not support Linux Kernel 4.4 or newer, as OpenAFS is not yet compatible with Linux Kernel 4.4 or newer.
+
+* [OpenAFS](https://copr.fedorainfracloud.org/coprs/jsbillings/openafs/)
+* [OpenAFS-KMod](https://copr.fedorainfracloud.org/coprs/jsbillings/openafs-kmod/)
+
 ### Mac OS X ###
 
 Sine Nomine digitally signed 1.6.16 Installers for [10.9](http://download.sinenomine.net/openafs/bins/1.6.16/macos-10.9/), [10.10](http://download.sinenomine.net/openafs/bins/1.6.16/macos-10.10/), and [10.11](http://download.sinenomine.net/openafs/bins/1.6.16/macos-10.11/)
