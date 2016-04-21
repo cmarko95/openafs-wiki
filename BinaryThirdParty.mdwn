@@ -9,7 +9,7 @@ While OpenAFS.org packages up binary releases of OpenAFS, third parties may also
 
 Repackaged using sources from http://www.openafs.org/. Does not use the spec file included there, but a slimmer package that uses non-transarc paths.
 
-Does not support Linux Kernel 4.4 or newer, as OpenAFS is not yet compatible with Linux Kernel 4.4 or newer.
+Does not support Linux Kernel 4.5 or newer, as OpenAFS is not yet compatible with Linux Kernel 4.5 or newer.
 
 * [OpenAFS](https://copr.fedorainfracloud.org/coprs/jsbillings/openafs/)
 * [OpenAFS-KMod](https://copr.fedorainfracloud.org/coprs/jsbillings/openafs-kmod/)
