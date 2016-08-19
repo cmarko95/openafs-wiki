@@ -1,0 +1,31 @@
+[[!toc levels=3]]
+
+# OpenAFS Wiki Style Guide
+
+
+
+
+## Basic conventions
+
+### Page layout
+
+
+### Line lengths
+
+
+## Formatting conventions
+
+### Headings
+
+### Lists
+
+### Code
+
+### Wiki Links
+
+### External Links
+
+### Images
+
+### Tables
+

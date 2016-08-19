@@ -7,7 +7,7 @@ open-source implementation of the AFS distributed filesystem.
 
 OpenAFS is a caching, distributed, network-based filesystem for securely and
 efficiently sharing files over a private network or over the internet.  OpenAFS
-stores files on file server machines. OpenAFS clients read and write data to
+stores files on file servers. OpenAFS clients read and write data to
 the file servers. Data is cached locally by clients, making subsequent reads
 very fast.  File servers automatically notify clients when data is
 changed, keeping data in sync.  OpenAFS clients integrate with the client
@@ -24,12 +24,11 @@ Solaris, and Linux.
   * access control lists
   * kerberos integration
 
-## Getting started
+## Using OpenAFS
 
   * [[Getting started|GettingStarted]]
   * [Documentation][3]
   * [[Contributed guides and information|GuidesAndInfo]]
-  * [[Where to get help|WhereToGetHelp]]
   * [[Frequently asked questions|AFSFrequentlyAskedQuestions]]
   * A [[list of sites using OpenAFS|ListOfSitesUsingOpenAFS]]
   * [[Binary Packages Available from Third Parties|BinaryThirdParty]]
@@ -42,6 +41,14 @@ Solaris, and Linux.
   * OpenAFS [[developer documentation|OpenAFSDevelopers]]
   * OpenAFS project [[infrastructure|openafsinfrastructure]]
 
+## Getting help
+
+  * [[Commercial Support|WhereToGetHelp]]
+  * IRC [chat.freenode.net][4] channel #openafs
+  * [OpenAFS Mailing lists][5]
+    * Users and administrators -> OpenAFS-info
+    * Developers -> OpenAFS-devel
+
 ## About this wiki
 
   * How to use this [[wiki|ikiwiki]]
@@ -50,7 +57,8 @@ Solaris, and Linux.
   * [[Orphaned pages|WikiOrphanedPages]]
   * [[Broken links|WikiBrokenLinks]]
 
-
 [1]: images/andy_juggles.jpg "Andy Juggles"
 [2]: http://www.openafs.org  "OpenAFS"
 [3]: http://docs.openafs.org/ "OpenAFS Documentation"
+[4]: http://webchat.freenode.net/?channels=%23openafs&uio=d4 "Freenode webchat"
+[5]: https://lists.openafs.org/mailman/listinfo "Mailing lists"
