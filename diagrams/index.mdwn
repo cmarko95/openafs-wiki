@@ -1,0 +1,20 @@
+
+## Diagrams
+
+Various block diagrams which can be added to pages.
+
+* afs-cb-0 [png](/diagrams/afs-cb-0.png) [source](/diagrams/afs-cb-0.dia)
+* afs-cb-1 [png](/diagrams/afs-cb-1.png) [source](/diagrams/afs-cb-1.dia)
+* afs-cb-2 [png](/diagrams/afs-cb-2.png) [source](/diagrams/afs-cb-2.dia)
+* afs-cb-3 [png](/diagrams/afs-cb-3.png) [source](/diagrams/afs-cb-3.dia)
+* afs-cb-4 [png](/diagrams/afs-cb-4.png) [source](/diagrams/afs-cb-4.dia)
+* afs-cb-5 [png](/diagrams/afs-cb-5.png) [source](/diagrams/afs-cb-5.dia)
+* afs-cb-ro-1 [png](/diagrams/afs-cb-ro-1.png) [source](/diagrams/afs-cb-ro-1.dia)
+* afs-cm-fs-1 [png](/diagrams/afs-cm-fs-1.png) [source](/diagrams/afs-cm-fs-1.dia)
+* afs-fs-threads [png](/diagrams/afs-fs-threads.png) [source](/diagrams/afs-fs-threads.dia)
+* dcache-2 [png](/diagrams/dcache-2.png) [source](/diagrams/dcache-2.dia)
+* openafs-arch-1 [png](/diagrams/openafs-arch-1.png) [source](/diagrams/openafs-arch-1.dia)
+* openafs-arch-2 [png](/diagrams/openafs-arch-2.png) [source](/diagrams/openafs-arch-2.dia)
+* openafs-arch-3 [png](/diagrams/openafs-arch-3.png) [source](/diagrams/openafs-arch-3.dia)
+* VolumeDump-Directory [png](/diagrams/VolumeDump-Directory.png) [source](/diagrams/VolumeDump-Directory.dia)
+* VolumeDumpStructure-draft2 [png](/diagrams/VolumeDumpStructure-draft2.png) [source](/diagrams/VolumeDumpStructure-draft2.dia)
