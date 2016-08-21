@@ -3,8 +3,14 @@ This is the SandBox, a page anyone can edit to learn how to use the wiki.
 This is a test change using the web form.
 
 ----
+This wiki is powered by [ikiwiki](http://ikiwiki.info/).
+[[!if test="enabled(version)"
+     then="(Currently running version [[!version ]].)"
+]]
 
-[[!haiku  hint="argument"]]
+SubPages [official doc](https://ikiwiki.info/ikiwiki/subpage/)
+
+----
 
 Here's a paragraph.
 
