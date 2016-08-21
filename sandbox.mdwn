@@ -4,6 +4,8 @@ This is a test change using the web form.
 
 ----
 
+[[!haiku  hint="argument"]]
+
 Here's a paragraph.
 
 Here's another one with *emphasised* text.
