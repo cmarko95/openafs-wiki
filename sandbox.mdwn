@@ -1,5 +1,5 @@
 ![andy][1]
-[1]: images/andy_juggles.jpg "Andy Juggles"
+[1]: /images/andy_juggles.jpg "Andy Juggles"
 
 This is the SandBox, a page anyone can edit to learn how to use the wiki.
 
