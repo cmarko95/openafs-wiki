@@ -1,4 +1,6 @@
-[afs-cb-0][1]
+# Create file
+![afs-cb-0][1]
+
 1. create file on *host d*
  * data version (dv) = 1
  * callback registration
@@ -6,11 +8,14 @@
 3. fetch-states
 4. add callback at fileserver
 
+# Replicate file
 ![afs-cb-1][2]
 hello.c propagates to *hosts a,b,c* from fileserver. Callbacks are registered for a period of time. Callbacks notify a host if a change occurs.
 
-[afs-cb-2][3]
+# Modify file
+![afs-cb-2][3]
 host a modifies the file.
+
 1. open, write, close on *host a*
 2. store-data
 3. callbacks *b,c,d* are called
@@ -18,15 +23,19 @@ host a modifies the file.
 4. reply *dv=2* for *host a*
  * incremented at the *fileserver*
 
+# Read stale file
 ![afs-cb-3][4]
 read a stale file on *host c*.
+
 1. open, read on *host c*
 2. fetch-status
  * returns *dv=2* > local cached *dv=1*
 3. fetch-data *dv=2* for *host c*
  * registers callback for the file on *host c*
 
-[afs-cb-4][5]
+# Callback expires
+![afs-cb-4][5]
+
 1. callbacks *a,c* expire.
 2. read file on *host c*
 3. fetch-status
@@ -34,8 +43,10 @@ read a stale file on *host c*.
  * registers a new callback for the file on *host c* with *fileserver*
 4. new callback. cached data so local data is used.
 
+# Callback failure
 ![afs-cb-5][6]
 a common failure mode: callback to host fails
+
 1. write, close on *host a*
 2. store-data
 3. callback (fails)
