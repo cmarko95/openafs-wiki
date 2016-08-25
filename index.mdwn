@@ -26,24 +26,24 @@ Solaris, and Linux.
 
 ## Using OpenAFS
 
-  * [[Getting started|GettingStarted]]
+  * [[Getting started|/Archive/GettingStarted]]
   * [Documentation][3]
-  * [[Contributed guides and information|GuidesAndInfo]]
-  * [[Frequently asked questions|AFSFrequentlyAskedQuestions]]
-  * A [[list of sites using OpenAFS|ListOfSitesUsingOpenAFS]]
-  * [[Binary Packages Available from Third Parties|BinaryThirdParty]]
+  * [[Contributed guides and information|/Archive/GuidesAndInfo]]
+  * [[Frequently asked questions|/Archive/AFSFrequentlyAskedQuestions]]
+  * A [[list of sites using OpenAFS|/Archive/ListOfSitesUsingOpenAFS]]
+  * [[Binary Packages Available from Third Parties|/Archive/BinaryThirdParty]]
 
 ## Get involved
 
-  * A [[list of tiny and simple tasks|TinySimpleTasks]]
-  * [[Contributing scripts and tools|Contrib]]
-  * [[Maintaining documentation|MaintainingDocumentation]]
-  * OpenAFS [[developer documentation|OpenAFSDevelopers]]
-  * OpenAFS project [[infrastructure|openafsinfrastructure]]
+  * A [[list of tiny and simple tasks|/Archive/TinySimpleTasks]]
+  * [[Contributing scripts and tools|/Archive/Contrib]]
+  * [[Maintaining documentation|/Archive/MaintainingDocumentation]]
+  * OpenAFS [[developer documentation|/Archive/OpenAFSDevelopers]]
+  * OpenAFS project [[infrastructure|/Archive/openafsinfrastructure]]
 
 ## Getting help
 
-  * [[Commercial Support|WhereToGetHelp]]
+  * [[Commercial Support|/Archive/WhereToGetHelp]]
   * IRC [chat.freenode.net][4] channel #openafs
   * [OpenAFS Mailing lists][5]
     * Users and administrators -> OpenAFS-info
