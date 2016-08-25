@@ -43,7 +43,7 @@ Solaris, and Linux.
 
 ## Getting help
 
-  * [[Commercial Support|/Archive/WhereToGetHelp]]
+  * [[Commercial Support|/support/WhereToGetHelp]]
   * IRC [chat.freenode.net][4] channel #openafs
   * [OpenAFS Mailing lists][5]
     * Users and administrators -> OpenAFS-info
