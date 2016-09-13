@@ -3,6 +3,7 @@
 This page provides a collection of documentation for new and existing [[OpenAFS]] developers.
 
 * [[GitDevelopers]] - documentation on how to use the Git version control system to interact with [[OpenAFS]]
+* [[AfsPerformance]]
 * [[Tasks related to a 1.8 stable release branch|OpenAFS18Notes]]
 * [[OpenAFSSimpleJobs]] - a list of relatively straightforward jobs that need doing in the [[OpenAFS]] code
 * [[Hackathons]]
