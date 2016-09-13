@@ -5,8 +5,7 @@ This is the central page for collecting the current AFS performance testing conc
 ## TODO
 * System diagram of AFS observability tools
   * goal state: similar to [Brendan Gregg's for Linux][1]
-  * current state:
-![OpenAFS Arch][2]
+  * current state: [OpenAFS Arch][2]
 * Work load definitions
   * git/tar operations on AFS compared to local FS
   * large file r/w
@@ -16,6 +15,7 @@ This is the central page for collecting the current AFS performance testing conc
 [MIT Wollman][3] AFS testing
 
 Postmark
+
 * http://www.filesystems.org/docs/auto-pilot/Postmark.html
 * https://openbenchmarking.org/test/pts/postmark
 * http://www.dartmouth.edu/~davidg/postmark_instructions.html
