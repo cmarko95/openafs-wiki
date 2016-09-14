@@ -134,6 +134,7 @@ The following development libraries are needed:
 - perl
 - ncurses (optional, needed to build scout/afsmonitor)
 - pam (optional)
+- libfuse (optional)
 - kernel headers
 
 The ncurses libraries are needed to build the ncurses based admin tools
@@ -150,8 +151,9 @@ build dependencies,
 
 On a Debian 6, the required packages can be install with the following commands apt-get commands,
 
-    $ sudo apt-get install git autoconf automake libtool make gcc flex bison
-    $ sudo apt-get install libc6-dev libkrb5-dev libperl-dev libncurses5-dev linux-headers-$(uname -r)
+    $ sudo apt-get install git autoconf automake libtool make gcc flex bison \
+      libc6-dev libkrb5-dev libperl-dev libncurses5-dev libfuse-dev \
+      linux-headers-$(uname -r)
 
 ### Linux RPM Packages ###
 
