@@ -4,7 +4,7 @@ This document is an attempt to codify a coding style for [[OpenAFS]]. It's curre
 
 Use gnu indent 2.2.9 or later to reformat using the following:
 
-    indent -npro -nbad -bap -nbc -bbo -br -ce -cdw -brs -ncdb -cp1 -ncs -di2 -ndj -nfc1 -nfca -i4 -lp -npcs -nprs -psl -sc -nsob -ts8
+    gindent -npro -nbad -bap -nbc -bbo -br -ce -cdw -brs -ncdb -cp1 -ncs -di2 -ndj -nfc1 -nfca -i4 -lp -npcs -nprs -psl -sc -nsob -ts8
 
 **Note for commentors**: Please feel free to update this guide with your views. However, if you disagree with the content, rather than deleting it, please add your suggested ammendments alongside - that way we can hopefully produce a consensus document.
 
