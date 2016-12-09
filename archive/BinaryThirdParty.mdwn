@@ -16,10 +16,10 @@ Does not support Linux Kernel 4.5 or newer, as OpenAFS is not yet compatible wit
 
 ### Mac OS X ###
 
-Sine Nomine Associates digitally signed OpenAFS 1.6.19 Installers:
+Sine Nomine Associates digitally signed OpenAFS 1.6.20 Installers:
 
-* [OpenAFS 1.6.19 for MacOS 10.11](http://download.sinenomine.net/openafs/bins/1.6.19/macos-10.11/)
-* [OpenAFS 1.6.19 for MacOS 10.12](http://download.sinenomine.net/openafs/bins/1.6.19/macos-10.12/)
+* [OpenAFS 1.6.20 for MacOS 10.11](http://download.sinenomine.net/openafs/bins/1.6.20/macos-10.11/)
+* [OpenAFS 1.6.20 for MacOS 10.12](http://download.sinenomine.net/openafs/bins/1.6.20/macos-10.12/)
 
 #### Release Notes for Sine Nomine Packages ####
 
