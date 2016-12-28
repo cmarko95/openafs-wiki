@@ -444,5 +444,21 @@ Some make targets of interest
 - make distclean - remove build and configure artifacts
 - make tests - make the (old) afs test suite
 
+## Out of Tree Builds ##
+
+You may want to avoid cluttering your source tree with build artifacts, or
+perhaps your source is in /afs and you want to write build artifacts on a
+local, fast temporary file system.  No configure hacking is needed to do
+perform an out of tree build.  If building from a git checkout, first build a
+configure script as usual, then change the current working directory to your
+local build directory and run configure and then make.
+
+
+    $ mkdir /tmp/mybuild
+    $ cd /tmp/mybuild
+    $ ( cd /afs/mycell/myfiles/openafs && ./regen.sh )  # if no configure
+    $ /afs/mycell/myfiles/openafs/configure $options
+    $ make
+
 
 
