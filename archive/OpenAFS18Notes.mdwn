@@ -35,25 +35,27 @@ Things to be done pre-branching (aka before pre1):
   and using dynamic linkage for the client utilities.
 * (rxosd is not going to make it unless someone steps up to do the work;
   we can't block the branch indefinitely on it.)
-* Do install and run testing on various platforms; check for memory leaks
-  in servers, etc..
-* Relatedly, check that the kernel module is properly built and loadable
+* [we have some experience/results here] Do install and run testing on
+  various platforms; check for memory leaks in servers, etc..
+* [done] Relatedly, check that the kernel module is properly built and loadable
   on a variety of linuxen.
 * [done] Draft Debian packaging (which will help with a lot of the libtool
   validation).
 * [done] Whitespace cleanup.
-* Any other tree-wide cleanup that people want to get in.
+* [the time for this has passed] Any other tree-wide cleanup that people want to get in.
 * [partially? done]
   Adjust the default behavior of configure (pthreaded ubik?  more?)
-* Beg and plead for documentation updates.
+* [some work was done] Beg and plead for documentation updates.
 * [done] Tie the installation of the pam module to --enable/disable-kauth
-* fix issues with HOST_TO_ZERO and tmay (see gerrit 11287/11290 and related)
-* Go through outstanding changes against master and determine
+* [done] fix issues with HOST_TO_ZERO and tmay (see gerrit 11287/11290 and related)
+* [done] Go through outstanding changes against master and determine
   which should get pulled in for 1.8
-* Document KeyFileExt and how to migrate keys from 1.6 to 1.8 format
-* Document asetkey list for KeyFileExt keys
-* remove vos release -stayup
-* Investigate volume header update issues; volume update time is not
+* [done] Document KeyFileExt and how to migrate keys from 1.6 to 1.8 format
+  (akeyconvert was written)
+* [done] Document asetkey list for KeyFileExt keys
+* [done] remove vos release -stayup
+* [partially done, for salvager changes]
+  Investigate volume header update issues; volume update time is not
   changed by admin operations that alter metadata such as quota, which
   could subsequently get lost.
 
