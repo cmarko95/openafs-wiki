@@ -6,6 +6,6 @@ This page is for information about individuals and companies who are willing to 
 
 Sine Nomine provides AFS setup and support, both remote and on-site, and on-site classroom and hands-on training.
 
-#### <a name="Secure Endpoints Inc."></a> [Secure Endpoints Inc.](http://www.secure-endpoints.com/support/openafs.html)
+#### <a name="AuriStor, Inc."></a> [AuriStor, Inc.](https://www.auristor.com/openafs)
 
-Secure Endpoints Inc. provides the [[OpenAFS]] community the [[OpenAFS]] for Windows installers along with support and development services for [[OpenAFS]] on Microsoft Windows, [[MacOS]] X and Solaris
+AuriStor, Inc. provides the [OpenAFS] community the [OpenAFS] for Microsoft Windows installers along with support services for [OpenAFS] on Microsoft Windows, [[MacOS]] X, Linux, and Solaris.  AuriStor also licenses the [AuriStor File System](https://www.auristor.com/openafs/migrate-to-auristor/), a commercial AFS variant that satisfies organizations with advanced security, performance and scale requirements.
