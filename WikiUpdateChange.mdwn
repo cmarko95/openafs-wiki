@@ -1,0 +1,30 @@
+This document describes the proposed updates for the OpenAFS
+wiki.
+
+1. Update the version of OpenAFS to the latest stable
+   release which is "1.6.21"
+2. Unarchive information that is still relevant to the
+   project.
+3. Remove broken links and clear the orphaned pages list.
+4. Sort information into admin or developer
+   sections/pages/categories.
+5. Maintain the Contributed docs section. This section holds
+   a lot of useful information, but it needs to be sorted,
+updated, and replenished.
+6. Archive old FAQs page and generate a new one. It would be
+   nice to incorporate the latest email exchanges that have
+been sent out from the openafs-info-request mailing list.
+7. Remove the list of OpenAFS sites. It is probably very
+   outdated. It can always be generated again if there is a
+want for a new list.
+8. Remove the Tiny Simple Tasks page because that is
+   automated now.
+9. Update the admin page with the correct administrators to
+   contact.
+10. Update the mailing lists to include only the ones that
+    are being maintained. Archive the old ones.
+
+More may need to be added to this list for a thorough spring
+cleaning, but this is the start for now. Please feel free to
+contribute to this document and to the wiki update efforts.
+This is a small part in keeping the OpenAFS project alive.
