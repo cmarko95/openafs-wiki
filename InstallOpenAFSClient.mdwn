@@ -40,7 +40,7 @@ Install those RPMS. If you don't know how to do this, then this document isn't i
 
 Follow the instructions that were output during the RPM install. In particular, edit /usr/vice/etc/ThisCell.
 
-If you you will need to [[KerberosV]] on your system. If you have not done so, do so now. Instructions for doing that are outside of the scope of this document.
+You will need to install [[KerberosV]] on your system. If you have not done so, do so now. Instructions for doing that are outside of the scope of this document.
 
 ##### <a name="Start AFS"></a> Start AFS
 
@@ -48,7 +48,7 @@ Start the AFS client, by running '/etc/rc.d/init.d/afs start'
 
 Verify that /afs/&lt;your-cell-here&gt; is readable.
 
-Get AFS tokens with klog, or translate existing kerberos tickets with aklog, and verify that you can modify files in AFS.
+Get AFS tokens with aklog, or translate existing kerberos tickets with aklog, and verify that you can modify files in AFS.
 
 Once you've verified that AFS works correctly, you may want to configure AFS to start automatically, via whatever mechanism you prefer.
 
@@ -59,8 +59,6 @@ Once you've verified that AFS works correctly, you may want to configure AFS to 
 You will need at least a 4GB card to download all the necessary software and linux kernel
 
 Much of this is taken from <http://www.raspberrypi.org/phpBB3/viewtopic.php?f=71&t=17666>
-
-A wiki that is kept more up to date at <https://samvinna.ru.is/projects/projects/devnet-documentation/wiki/AFS_Client_Installation>
 
 Other guides:
 rpi-update at <https://github.com/Hexxeh/rpi-update/>
@@ -130,3 +128,4 @@ Some good guides into getting [[OpenAFS]] installed on Mac OS X 10.3 can be foun
 [http://www.ibiblio.org/macsupport/kerberos/kerberos10\_2.html](http://www.ibiblio.org/macsupport/kerberos/kerberos10_2.html)
 
 -- Clark Hale - 20 Jan 2005 Removed Crap, and dead link.
+-- Caitlyn Marko - 24 Aug 2017 Removed broken link.
