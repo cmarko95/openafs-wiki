@@ -1,8 +1,8 @@
 This page describes how to use the DKMS OpenAFS package to build
 and install an OpenAFS kernel module for your RPM linux based system.
-This may be needed if there is not a pre-build kernel module for your
-platform and/or kernel version. DMKS is a system to used to build
-Linux kernel modules which are not included in the maintained in the
+This may be needed if there is not a pre-built kernel module for your
+platform and/or kernel version. DMKS is a system used to build
+Linux kernel modules which are not included in the maintained
 mainline Linux code.
 
 
