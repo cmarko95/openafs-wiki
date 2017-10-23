@@ -1,2 +1,0 @@
-[Glossary](http://web.mit.edu/kerberos/www/krb5-1.3/krb5-1.3.1/doc/krb5-user.html#Kerberos%20Glossary)
-

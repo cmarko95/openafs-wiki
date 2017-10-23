@@ -1,3 +1,0 @@
-A binary file containing fixed-length records consisting of a [[KeyVersionNumber]] (kvno) and a 56 bit DES key.
-
--- Derrick Brashear - 26 Nov 2002

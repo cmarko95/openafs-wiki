@@ -1,3 +1,0 @@
-Monatonically increasing (in most cases) key version identifier which is incremented each time a principal changes keys (typically involving a change password operation)
-
--- Derrick Brashear - 26 Nov 2002
