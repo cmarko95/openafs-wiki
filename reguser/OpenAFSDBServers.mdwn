@@ -1,0 +1,46 @@
+In this section we will cover adding more database
+servers so afsdb1 is not a single point of failure.
+
+
+First, add the new hosts to afsdb1:
+    ssh afsdb1
+    
+    bos listhosts afsdb1
+    bos addhost afsdb1 afsdb2.classroom.sinenomine.net -localauth
+    bos addhost afsdb1 afsdb3.classroom.sinenomine.net -localauth
+    bos listhosts afsdb1
+    cat /usr/afs/etc/CellServDB
+
+Then, restart the server and then check the logs:
+    service openafs-server restart
+
+    cat /usr/afs/logs/PtLog
+    cat /usr/afs/logs/VLLog
+    cat /usr/afs/logs/BosLog
+
+Now configure the new hosts, afsdb2 and afsdb3 using the steps :
+    ssh afsdb2
+    
+    scp afsdb1:/usr/afs/etc/* /usr/afs/etc/
+    ls /usr/afs/etc/
+    cat /usr/afs/etc/CellServDB
+
+    service openafs-server start
+
+    bos create afsdb2 ptserver simple /usr/afs/bin/ptserver -localauth
+    bos create afsdb2 vlserver simple /usr/afs/bin/vlserver -localauth
+    bos status afsdb2 -long
+    
+    cat /usr/afs/logs/BosLog
+    cat /usr/afs/logs/VLLog
+    cat /usr/afs/logs/PtLog
+
+As the name says, udebug returns information important to finding and debugging an error. Now run the udebug command for each of the hosts:
+    udebug -server afsdb1 -port 7003
+    udebug afsdb2 7003
+    udebug afsdb3 7003
+
+A command used to find a client or server over a network is rxdebug:
+    rxdebug <hostname> <port>
+
+Sine Nomine Associates Nov 2017

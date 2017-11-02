@@ -1,0 +1,22 @@
+In this section we will create a shared project work space and give multiple
+users read and write access to it.
+
+1. As admin, create the users (kerberos and pts): follow the steps from [[OpenAFS Tutorial Setup]] under the Creating regular users section.
+
+2. As admin, create a new prefix-less group and add members to it. First check the existing groups. Then create the group and add members.
+    kinit admin
+    aklog
+    pts listentries -g
+    pts creategroup -name <new group>
+    pts adduser <user> <new group>
+    pts membership <new group>
+
+3. As admin, create a shared "project" volume. Mount the volume, and grant the group access rights.
+    vos create afs01 a project.<new group> -m 0
+    fs mkmount /afs/yoyodyne.com/<new group> project.<new group>
+    fs sa /afs/yoyodyne.com/<new group>/ <new group> write
+    touch /afs/yoyodyne.com/<new group>/<file>
+    echo "Cleveland Rocks" > /afs/yoyodyne.com/<new group>/<file>
+    cat /afs/yoyodyne.com/<new group>/<file>
+
+Sine Nomine Associates Nov 2017

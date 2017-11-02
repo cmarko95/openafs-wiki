@@ -1,0 +1,395 @@
+= Basic AFS cell setup =
+
+In this section we will setup the most basic configuration, consisting of
+a single AFS database service, a single AFS fileserver, and one AFS client.
+Only read-write volumes will be setup at this time.
+
+We assume the Kerberos realm is setup and ready before doing any of the
+steps in this section.
+
+This tutorial assumes the client is configured to start with the Dynamic
+Root (-dynroot) enabled.  This is the default on modern systems.
+
+== Creating the service key ==
+
+How do we create the afs service key?
+
+1, Login as '''root''' to the Kerberos server; <code>root@afsdb1</code>.
+
+2. Add a service principal for our new AFS cell using
+<code>kadmin.local</code>.  The format of an AFS service principal name is:
+
+    afs/<cellname>@<REALMNAME>
+
+For this example, YOYODYNE.COM is the realm name, yoyodyne.com is the instance
+name, and afs is the name. We want to add a principal that does not require a
+password so we also must use the -randkey option to generate a random set of
+keys. The following shows how the information should be organized on the kadmin
+command line.
+
+    kadmin.local
+    ank -randkey afs/yoyodyne.com@YOYODYNE.COM
+
+3. In order to use the newly generated keys, they must be moved to a secure
+location on the AFS servers. Export the keys into a keytab file to be installed
+on the AFS servers. To continue the above example: 
+
+    ktadd -k /root/rxkad.keytab -e aes256-cts:normal,aes128-cts:normal afs/yoyodyne.com@YOYODYNE.COM
+
+'''NOTE''': Do not add a space after the comma separating the encryption types.
+
+4. Check that the correct keys are now in the file by quitting kadmin.local and
+entering the next command:
+
+    klist -e -k -t /root/rxkad.keytab
+
+This list should only contain keys with aes at the beginning. The principal
+should also match the principal that was entered in the previous step.
+
+5. Now the keys need to be copied to the AFS database and file servers. To do
+that securely, use the <code>scp</code> command:
+
+    scp /root/rxkad.keytab afsdb1:/usr/afs/etc/rxkad.keytab
+    scp /root/rxkad.keytab afs01:/usr/afs/etc/rxkad.keytab
+
+6. Finally, remove our temporary keytab file.
+
+    rm /root/rxkad.keytab
+
+== Creating the database server ==
+
+How do we setup the single database server?
+
+1. First the BOS server needs to be started which will oversee other AFS server processes. To do that issue the following command: 
+    service openafs-server start
+
+To check that the server is running issue the next command: 
+    bos listhosts afsdb1
+
+ The output should include 'bos: running ...' which tells you that the command was correct and started running the bos server.
+
+2. Next the bos server needs a cell name that matches the cell name where the keys were stored. The next command names the bos cell: 
+    bos setcellname afsdb1 yoyodyne.com -localauth
+
+*Remember to include the -localauth command.
+
+3. Check that the cell name is correct after doing the previous step. To do that, enter the next command: 
+    bos listhosts afsdb1
+
+4. Now the PT Server and the VL Server need to be created on the BOS server. To do that, use this command for the PT Server: 
+    bos create afsdb1 ptserver simple /usr/afs/bin/ptserver -localauth
+
+Enter the same command for the VL Server, but replace ptserver with vlserver.
+
+5. Check the logs for each server to make sure they are running. Enter this command for PT Server: 
+    bos getlog afsdb1 PtLog -localauth 
+
+Enter this command for the VL Server: 
+    bos getlog afsdb1 VLLog -localauth
+
+Caution: '''Do not''' use this command to try to check the logs: '''bos getlog afsdb1 /usr/afs/bin/ptserver -localauth'''. Bad idea.
+
+== Creating the file server ==
+
+How do we setup the first file server?
+
+1. First the BOS server needs to be started which will oversee other AFS server processes. To do that issue the following command: 
+    service openafs-server start
+
+To check that the server is running issue the next command: 
+    bos listhosts afs01
+
+The output should include 'bos: running ...' which tells you that the command was correct and started running the bos server.
+
+2. Next the bos server needs a cell name that matches the cell name where the keys were stored. The next command names the bos cell: 
+    bos setcellname afs01 yoyodyne.com -localauth 
+
+*Remember to include the -localauth command.
+
+3. Check that the cell name is correct after doing the previous step. To do that, enter the next command: 
+    bos listhosts afsdb1 
+
+Notice that the host is afs01.classroom.sinenomine.net. That needs to be changed because the original BOS server setup was on afsdb1.classroom.sinenomine.net. 
+
+a. First add the afsdb1 as a host by using this command: 
+    bos addhost afs01.classroom.sinenomine.net afsdb1.classroom.sinenomine.net -localauth 
+
+Check that afsdb1 was added to the list correctly: 
+    bos listhosts afs01
+
+b. Next remove the afs01 as a host by using this command: 
+    bos removehost afs01.classroom.sinenomine.net afs01.classroom.sinenomine.net -localauth
+
+Again, check that afs01 was removed from the list correctly: 
+    bos listhosts afs01
+
+4. Now the DAFS need to be created on the BOS server. To do that, use this really long command for the DAFS server: 
+    bos create afs01 dafs dafs /usr/afs/bin/dafileserver /usr/afs/bin/davolserver /usr/afs/bin/salvageserver /usr/afs/bin/dasalvager -localauth
+
+5. Now check all four of the logs. The largest log file will be "FileLog" so save the best for last. The command to check each file is: 
+    cat /usr/afs/logs/<filename>
+
+*The file names are: FileLog, BosLog, SalsrvLog, and VolserLog.
+
+6. The next step is to create the root volumes. There are two important volumes. First is the root.afs volume which is the very first volume to create. This command will create the volume: 
+    vos create afs01 a root.afs -localauth
+
+Next the root cell volume needs to be created. This will match the cell that was created in previous steps. The command for this is: 
+    vos create afs01 a root.cell -localauth
+
+== Creating the workstation ==
+
+1. First, check that rpms is installed: 
+    rpm -qa | grep afs
+
+2. Check that afs is not already running on the machine:
+
+    service openafs-client status
+
+3. We can double check by verifying afs is not mounted, the kernel module is
+not loaded, and n there are no userspace AFS processes running: 
+
+    mount | grep /afs
+    ...
+    lsmod | grep afs
+    ...
+    ps -ef | grep afs | grep -v grep
+
+
+5. Now change directory: 
+    cd /usr/vice/
+
+See that there are two folders. "Cache" stores the afs cache files. "Etc" stores the configuration files. 
+
+Enter into the "Etc" directory:
+    cd etc 
+
+See all of the files that this directory has. The client can have lots of entries for other sites, unlike the
+server. They are called foreign sites.
+
+6. Now secure copy CellServDB.local and ThisCell into the workstation files:
+
+
+    scp afsdb1:/usr/afs/etc/CellServDB /usr/vice/etc/CellServDB.local
+    scp afsdb1:/usr/afs/etc/ThisCell /usr/vice/etc/ThisCell
+
+Look at the new files. 
+    cat /usr/vice/etc/ThisCell 
+    cat /usr/vice/etc/CellServDB
+    cat /usr/vice/etc/cacheinfo
+
+7. Let us setup the foreign cells which will be accessible to the client:
+
+    mv /usr/vice/etc/CellServDB.dist /usr/vice/etc/CellServDB.saved
+    scp afsdb1:/root/CellServDB.dist /usr/vice/etc/CellServDB.dist
+
+8. Check the AFS client startup options:
+
+    cat /etc/sysconfig/openafs
+
+This should show "-dynroot -fakestat -afsdb" for the client start up options.
+
+9. Now is the time to start the client:
+
+    service openafs-client start
+
+Check that the client is now running using steps 2 and 3 above, and try:
+
+    ls /afs
+
+This should show the list of cells accessible.
+
+== Creating the admin user ==
+
+Now we create the first user account and grant admin privileges to that
+account. The account will be used for Kerberos as well as AFS administration.
+Later, we will create regular user accounts
+
+We will need to go back to the database server to create the '''first'''
+account.
+
+1. First add a new principal to Kerberos called 'admin'.  First login as
+'''root''' on to the Kerberos server: <code>ssh root@afsdb1</code>.
+
+2. Run use the kadmin.local command to create the kerberos principal.
+
+    kadmin.local
+    ank admin
+    Enter password for principal "admin@YOYODYNE.COM": **********
+    Re-enter password for principal "admin@YOYODYNE.COM": **********
+    exit
+
+3. The next step is to create a user on the PT server, where usernames and ids
+are stored in AFS. Use this command to create the user:
+
+    pts createuser admin -localauth
+
+4. Now add the new user to a group:
+
+    pts adduser admin system:administrators -localauth
+
+Check that the user was successfully added to the group: 
+
+    pts membership admin -localauth
+
+5. Next add the name to the super user list on the servers. To do that use this
+command for both afs01 and afsdb1: 
+
+    bos adduser afs01 admin -localauth
+    bos adduser afsdb1 admin -localauth
+
+6. Check that admin was added to the super user list through this command for
+both afs01 and afsdb1: 
+
+    bos listusers afs01 -localauth
+    bos listusers afsdb1 -localauth
+
+== Check ==
+
+At this point, you should be able to acquire an admin token and create files and directories
+in the afs filesystem of your basic cell.  Use a regular user from here on out. You should
+no longer use the Linux '''root''' account or sudo for the rest of this tutorial.
+
+1. Log into the workstation as a regular user, <code>ssh <user>@workstation1</code>.
+
+2. Acquire the AFS administrator token:
+
+    kinit admin
+    aklog
+    tokens
+
+The tokens command should show AFS User 1, which is the id of the admin in our tutorial
+cell.
+
+3. Verify we can access the afs name space. we should be able to create files under
+our cell directory.
+
+    ls /afs/yoyodyne.com
+    touch /afs/yoyodyne.com/testfile
+    rm /afs/yoyodyne.com/testfile
+
+= Namespace setup =
+
+Before users can use our site, we need to setup the root volume for the AFS
+namespace (root.afs), the root volume for our cell (root.cell), and any top
+level volumes for our new site (e.g. users, projects, etc).
+
+Log in as a normal user (not root) on the workstation and then acquire an token
+for the AFS administrator.
+
+    kinit admin
+    aklog
+    tokens
+
+The <code>tokens</code> output should show the AFS id of 1, which is the
+Administrator's id in this tutorial.
+
+== Setting up root.afs ==
+
+The <code>root.afs</code> volume should contain the mount points of the cells
+to be accessed. This is needed for clients which are running without the
+'''dynroot''' mode enabled.  The client we are using in this tutorial is
+running in '''dynroot''' mode.  See [[OpenAFS root setup without dynroot]] for
+the setup steps when the client is not running in '''dynroot''' mode.
+
+Mount the <code>root.afs</code> volume with a temporary mount point.
+
+    fs mkmount -dir /afs/yoyodyne.com/temp -vol root.afs
+
+Mount the local cell.
+
+    fs mkmount -dir /afs/yoyodyne.com/temp/yoyodyne.com -vol root.cell -cell yoyodyne.com
+
+Mount each of the foreign cells we would like to access:
+
+    fs mkmount -dir /afs/yoyodyne.com/temp/acme.com -vol root.cell -cell acme.com
+
+Grant read access to the AFS root directory to anonymous users.
+
+    fs setacl /afs/yoyodyne.com/temp system:anyuser read
+
+Finally, remove the temporary mount point.
+
+    fs rmmount -dir /afs/yoyodyne.com/temp
+
+Test on a system that does not have <code>-dynroot</code>.
+
+== Setting up root.cell ==
+
+The <code>root.cell</code> holds the top level directory for our cell. Typically,
+this will have mount points to the top level volumes for our cell.
+
+Grant read access to the cell root directory to anonymous users.
+
+    fs setacl /afs/yoyodyne.com/ system:anyuser read
+
+== Setting up our cell top level volumes ==
+
+Create a projects volume to use later, make a mount point in our root.cell to the
+new volume, and give the anonymous users read rights to the root directory of
+the new volume.
+
+    vos create afs01 a projects
+    fs mkmount /afs/yoyodyne.com/projects projects
+    fs setacl /afs/yoyodyne.com/projects system:anyuser read
+
+Do the same for a top level volume for our users.
+
+    vos create afs01 a user
+    fs mkmount /afs/yoyodyne.com/user user
+    fs setacl /afs/yoyodyne.com/user system:anyuser read
+
+= Creating regular users = 
+
+Now we can create regular users for our site. We give each user a dedicated
+volume to share files. 
+
+Every user requires a Kerberos principal and an AFS user name/number. We use
+the <code>kadmin</code> command to create the kerberos principal, and the AFS
+<code>pts</code> command to create the AFS user name/number pair.
+
+You should be logged on to the workstation as a regular user (not root). The
+commands will contact the database servers over the network.
+
+1. Be sure you have an '''admin''' token.
+
+    kinit admin
+    aklog
+    tokens
+
+2. Create the Kerberos principal for the new user:
+
+    kadmin -p admin
+    ank <newuser>
+    Enter password: *******
+    Re-enter password: ******
+    exit
+
+3. Create the AFS user name/number:
+
+    pts createuser <newuser>
+
+4 Create a volume for the new user, mount it under the top level user
+directory, and give the user write permisssions in their new volume.
+
+    vos create afs01 a user.<newuser>
+    fs mkmount /afs/yoyodyne.com/user/<newuser> user.<newuser>
+    fs sa /afs/yoyodyne.com/user/<newuser> <newuser> write
+
+5. Check by getting a token for the user.
+
+    unlog
+    kdestroy
+     
+    kinit <newuser>
+    aklog
+    tokens
+    
+    fs listacl /afs/yoyodyne.com/user/<newuser>
+    touch /afs/yoyodyne.com/user/<newuser>/testfile
+    rm /afs/yoyodyne.com/user/<newuser>/testfile
+    
+    unlog
+    kdestroy
+
+Sine Nomine Associates Nov 2017

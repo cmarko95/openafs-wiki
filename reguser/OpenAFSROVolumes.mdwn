@@ -1,0 +1,73 @@
+In this section we will add read-only volume support to our OpenAFS cell.
+
+At this point we should have the top-level directory structure:
+
+    /afs/                   -> root.afs
+      yoyodyne.com/         -> root.cell
+        project/
+          mayhem            -> project.mayhem
+        user/
+          alice             -> user.alice
+          bob               -> user.bob
+
+== About volume groups ==
+
+TODO: discussion about volume groups?
+
+== Creating top level read-only volumes ==
+
+Obtain admin credentials.
+
+    kinit admin
+    aklog
+
+The <code>vos addsite</code> tool is used to declare read-only sites in
+the VLDB. The first read-only site should match the location of the
+read-only volume, i.e., the same fileserver and same partition on the
+fileserver.  Additional read-only sites should be declared on other
+fileservers.  Then, use <code>vos release</code> to distribute the files.
+
+First, we create read-only volumes for the top level volumes.
+
+    vos addsite afs01 a root.afs
+    vos addsite afs02 a root.afs
+    
+    vos release root.afs
+    
+    vos addsite afs01 a root.cell
+    vos addsite afs02 a root.cell
+    
+    vos release root.cell
+
+Refresh your client's cache to be sure the paths are re-evaluated.
+
+    fs checkvolumes
+    fs flushall
+
+Now, the cache manager should resolve paths to the top level cell directory to
+be served out of the read-only root.cell volume.
+
+    fs examine /afs/yoyodyne.com/
+
+== Creating a read-only volume ==
+
+Let's create read-only volumes for a volume in our cell.
+
+    vos addsite afs01 a project.mayhem
+    vos addsite afs02 a project.mayhem
+    vos release project.mayhem
+
+    fs examine /afs/yoyodyne.com/project/mayhem/
+
+This path should now be served by the read-only copy of the volume.  The files
+reside on both fileservers, and clients may use either one. If one file server
+is down, clients should automatically fail over to the other server.
+
+== Accessing read-write data ==
+
+In order to access the read-write volume we must use a path that has
+a read-write mount point.
+
+    fs example /afs/.yoyodyne.com/project/mayhem/
+
+Sine Nomine Associates Nov 2017

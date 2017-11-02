@@ -1,0 +1,34 @@
+In this section we will be adding more files servers
+to our OpenAFS plant.
+
+
+First add the new file servers to the first file servers:
+    ssh afs01
+
+    service openafs-server stop
+    scp afsdb1:/usr/afs/etc/CellServDB /usr/afs/etc/CellServDB
+    cat /usr/afs/etc/CellServDB
+
+    service openafs-server start
+
+Check all of the logs:
+    cat /usr/afs/logs/FileLog
+
+Now add afs02:
+    ssh afs02
+    
+    scp afsdb1:/usr/afs/etc/* /usr/afs/etc/
+    
+    service openafs-server start
+    bos listhosts afs02
+    
+    bos create afs01 dafs dafs /usr/afs/bin/dafileserver /usr/afs/bin/davolserver /usr/afs/bin/salvageserver /usr/afs/bin/dasalvager -localauth
+
+    cat /usr/afs/logs/VolserLog
+    cat /usr/afs/logs/SalsrvLog
+    cat /usr/afs/logs/BosLog
+    cat /usr/afs/logs/FileLog
+    
+    vos listaddrs -printuuid
+
+Sine Nomine Associates Nov 2017
